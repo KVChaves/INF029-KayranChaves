@@ -5,17 +5,18 @@
 int main(){
 
   int idade;
+  printf("Insira um idade.\nEntre com um número negativo para encerrar.\n");
 
-    printf("Insira um idade:\nEntre com um valor negativo para terminar.\n");
-
-  while (idade>0){
+  while (idade>=0){
     scanf("%d",&idade);
-    
-    if (idade>=18)
+
+    if (idade>0)
+      if (idade<18)
+      printf("Você é de menor.\n");
+      else
       printf("Você é de maior.\n");
     else
-      printf("Você é de menor.\n");
-    }
-  
+      printf("...");
+  }
   
 }
