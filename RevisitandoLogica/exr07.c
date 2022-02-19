@@ -9,19 +9,15 @@ int main(){
   printf("Insira um número.");
   scanf("%d",&num);
 
-  if (num<=3){
-    printf("O Número %d e primo.",num);
+  for (i=1;i<6;i++){
+    if (num%i==0){
+      c++;
+    }
   }
-  else
-      for (i=2;i<6;i++){
-        if (num%i==0){
-          c++;
-        }
-      }
 
-      if (c>0){
-        printf("O número não é primo.");
-      }
-      else 
-        printf("O número é primo.");
+  if (c>2){
+    printf("O número %d não é primo.",num);
+  }
+    else 
+      printf("O número %d é primo.",num);
   }
