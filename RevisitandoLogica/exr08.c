@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-//Faça um programa que calcula o fatorial de um número.
+//Faça um programa que calcule o fatorial de um número.
 
 int main(){
 
