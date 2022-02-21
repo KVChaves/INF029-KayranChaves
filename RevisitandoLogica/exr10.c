@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 //Errado.
 
@@ -8,28 +9,28 @@ int main(){
 
   struct dados_pessoais
 {
-  int idade;
-  int cpf;
   char nome[40];
   char sexo[40];
+  int cpf;
+  int idade;
 };
 
   struct dados_pessoais dados1;
 
-  printf("- Dados Pessoais -\n");
+  printf("- Dados Pessoais -\n\n");
   printf("Nome: ");
   fgets(dados1.nome,40,stdin);
   printf("Sexo: ");
-  fgets(dados1.sexo,40,stdin);
+  fgets(dados1.sexo,10,stdin);
   printf("CPF: ");
   scanf("%d",&dados1.cpf);
   printf("Idade: ");
   scanf("%d",&dados1.idade);
   
-  printf("\n\n- Dados Cadastrados -\n");
+  printf("\n\n- Dados Cadastrados -\n\n");
   printf("Nome: %s",dados1.nome);
   printf("Sexo: %s",dados1.sexo);
   printf("CPF: %d",dados1.cpf);
-  printf("Idade: %d",dados1.idade);
+  printf("\nIdade: %d",dados1.idade);
   
 }
