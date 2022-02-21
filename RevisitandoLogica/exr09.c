@@ -1,35 +1,40 @@
 #include <stdio.h>
 
-//Incompleto.
-
 //Faça um programa que leia 10 números do usuário e informe quais deles são primos. Além disso, mostre a soma de todos os números primos existentes.
 
 int main(){
 
-  int nums[10];
-  int c=0;
-  int x=0;
-  int vets[10];
+  int nump[10]={0,0,0,0,0,0,0,0,0,0};
+  int num, cp, x, i;
+  int sp=0;
+  
+  printf("Insira 10 números\n");
 
-  printf("Insira 10 números:\n");
-  for (int i=0;i<10;i++){
-    c++;
-    printf("%dº número.",c);
-    scanf("%d",&nums[i]);
-  }
-  //printf("%d - %d",nums[0],nums[9]);
-
-  while (x<10){
-    c=0;
-    for (i=1;i<6;i++){
-      if (num[x]%i==0){
-      c++;
+  for (i=0;i<10;i++){
+    printf("Número: ");
+    scanf("%d",&num);
+    if (num!=1){
+      for (x=1;x<=num;x++){
+      if (num%x==0){
+        cp++;
       }
-    }
-    if (c>2){
-      vets[x]=nums[x];
-    }
-    x++;
-  }  
+      }
+      if (cp<3){
+      nump[i]=num;
+      printf("%d é primo!\n",num);
+      }
+    }  
+  cp=0;
+  }
+
+  for (i=0;i<10;i++){
+    sp=nump[i]+sp;
+  }
+
+  if (sp>0){
+    printf("\nA soma dos números primos inseridos é de %d.",sp);
+  }
+  else
+    printf("Você não inseriu nenhum número primo.");
   
 }
