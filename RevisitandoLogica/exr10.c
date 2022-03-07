@@ -11,7 +11,7 @@ int main(){
 {
   char nome[40];
   char sexo[40];
-  int cpf;
+  char cpf[15];
   int idade;
 };
 
@@ -21,16 +21,16 @@ int main(){
   printf("Nome: ");
   fgets(dados1.nome,40,stdin);
   printf("Sexo: ");
-  fgets(dados1.sexo,10,stdin);
+  fgets(dados1.sexo,3,stdin);
   printf("CPF: ");
-  scanf("%d",&dados1.cpf);
+  fgets(dados1.cpf,13,stdin);
   printf("Idade: ");
   scanf("%d",&dados1.idade);
   
   printf("\n\n- Dados Cadastrados -\n\n");
   printf("Nome: %s",dados1.nome);
   printf("Sexo: %s",dados1.sexo);
-  printf("CPF: %d",dados1.cpf);
-  printf("\nIdade: %d",dados1.idade);
+  printf("CPF: %s",dados1.cpf);
+  printf("Idade: %d",dados1.idade);
   
 }
