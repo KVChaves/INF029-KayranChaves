@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #define n 50
 #define completado 1
@@ -11,6 +10,7 @@ typedef struct data
     int dia;
     int mes;
     int ano;
+
 } datanasc;
 
 typedef struct alunos
@@ -20,6 +20,7 @@ typedef struct alunos
     char cpfAluno[15];
     datanasc dataAluno;
     int matriculaAluno;
+    
 } cadAlunos;
 
 typedef struct professor
@@ -29,6 +30,7 @@ typedef struct professor
     char cpfProf[15];
     datanasc dataProf;
     int matriculaProf;
+
 } cadProf;
 
 typedef struct materia
@@ -37,6 +39,7 @@ typedef struct materia
     char profMat[40];
     int codigoMat;
     int semestreMat;
+
 } cadMat;
 
 int menuprincipal();
@@ -83,8 +86,8 @@ int main(void)
                 {
                   printf("\nCadastro realizado com sucesso!\n");
                   numAlunos++;
+                  break;
                 }
-                break;
               }
               case 2:{
                 listaraluno(listAlunos, numAlunos);
@@ -95,7 +98,6 @@ int main(void)
                 break;
               }
             }
-            break;
           }
           case 2:{
             opcaoProf = menuProf();
@@ -108,9 +110,10 @@ int main(void)
                 if (retorno == completado)
                 {
                   printf("\nCadastro realizado com sucesso!\n");
+
                   numProf++;
+                  break;
                 }
-                break;
               }
               case 2:{
                 listarprof(listProf, numProf);
@@ -121,7 +124,6 @@ int main(void)
                 break;
               }
             }
-            break;
           }
           default:{
             printf("Opção Inválida. Tente novamente.");
@@ -129,7 +131,7 @@ int main(void)
         }
     }
 }
-}
+
 //-------FUNÇÕES-------
 
 int menuprincipal()
@@ -175,17 +177,13 @@ int cadastroaluno(cadAlunos listAlunos[], int numAlunos)
     if (listAlunos[numAlunos].nome[ln] == '\n')
         listAlunos[numAlunos].nome[ln] = '\0';
 
-    printf("Digite o sexo do aluno (M/F): ");
+    printf("Digite o sexo do(a) aluno(a) - 'M', 'F': ");
     fgets(listAlunos[numAlunos].sexoAluno, 2, stdin);
     if (listAlunos[numAlunos].sexoAluno[ln] == '\n')
         listAlunos[numAlunos].sexoAluno[ln] = '\0';
 
-    printf("Digite a data de nascimento (DD.MM.AAAA):\nDia: ");
-    scanf("%d", &listAlunos[numAlunos].dataAluno.dia);
-    printf("Mês: ");
-    scanf("%d",&listAlunos[numAlunos].dataAluno.mes);
-    printf("Ano: ");
-    scanf("%d",&listAlunos[numAlunos].dataAluno.ano);
+    printf("Digite a data de nascimento (DD.MM.AAAA): ");
+    scanf("%d/%d/%d", &listAlunos[numAlunos].dataAluno.dia, &listAlunos[numAlunos].dataAluno.mes, &listAlunos[numAlunos].dataAluno.ano);
     getchar();
 
     printf("Digite o CPF: ");
@@ -206,7 +204,6 @@ void listaraluno(cadAlunos listAlunos[], int numAlunos)
         printf("Matricula: %d\n", listAlunos[i].matriculaAluno);
         printf("CPF: %s\n", listAlunos[i].cpfAluno);
         printf("Sexo: %s\n", listAlunos[i].sexoAluno);
-        printf("Data: %d-%d-%d \n", listAlunos[i].dataAluno.dia,listAlunos[i].dataAluno.mes,listAlunos[i].dataAluno.ano);
     }
 }
 
@@ -238,17 +235,13 @@ int cadastroprof(cadProf listProf[], int numProf)
     if (listProf[numProf].nomeProf[ln] == '\n')
         listProf[numProf].nomeProf[ln] = '\0';
 
-    printf("Digite o sexo do professor (M/F): ");
+    printf("Digite o sexo do(a) professor(a) - 'M','F': ");
     fgets(listProf[numProf].sexoProf, 2, stdin);
     if (listProf[numProf].sexoProf[ln] == '\n')
         listProf[numProf].sexoProf[ln] = '\0';
 
-    printf("Digite a data de nascimento (DD.MM.AAAA):\nDia: ");
-    scanf("%d", &listProf[numProf].dataProf.dia);
-    printf("Mês: ");
-    scanf("%d", &listProf[numProf].dataProf.mes);
-    printf("Ano: ");
-    scanf("%d", &listProf[numProf].dataProf.ano);
+    printf("Digite a data de nascimento (DD.MM.AAAA): ");
+    scanf("%d/%d/%d", &listProf[numProf].dataProf.dia, &listProf[numProf].dataProf.mes, &listProf[numProf].dataProf.ano);
     getchar();
 
     printf("Digite o CPF: ");
@@ -269,6 +262,5 @@ void listarprof(cadProf listProf[], int numProf)
         printf("Matricula: %d\n", listProf[i].matriculaProf);
         printf("CPF: %s\n", listProf[i].cpfProf);
         printf("Sexo: %s\n", listProf[i].sexoProf);
-        printf("Data: %d-%d-%d", listProf[i].dataProf.dia,listProf[i].dataProf.mes,listProf[i].dataProf.ano);
     }
 }
