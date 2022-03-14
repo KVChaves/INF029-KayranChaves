@@ -322,30 +322,37 @@ int menuDis(){
 
 int cadastrodis(cadDis listDis[], int numDis)
 {
-    printf("\nDigite a código do disciplina: ");
-    scanf("%d", &listDis[numDis].codDis);
-    getchar();
+    if(numProf=0){
+      printf("Cadastre algum professor primeiro.\n");
+    }
+    else{
 
-    printf("Digite o nome da disciplina: ");
-    fgets(listDis[numDis].nomeDis, 40, stdin);
-    size_t ln = strlen(listDis[numDis].nomeDis) - 1;
-    if (listDis[numDis].nomeDis[ln] == '\n')
-        listDis[numDis].nomeDis[ln] = '\0';
+      int mp;
+      
+      printf("\nDigite a código do disciplina: ");
+      scanf("%d", &listDis[numDis].codDis);
+      getchar();
 
-    printf("Digite o semestre: ");
-    scanf("%d",&listDis[numDis].semDis);
-    getchar();
+      printf("Digite o nome da disciplina: ");
+      fgets(listDis[numDis].nomeDis, 40, stdin);
+      size_t ln = strlen(listDis[numDis].nomeDis) - 1;
+      if (listDis[numDis].nomeDis[ln] == '\n')
+          listDis[numDis].nomeDis[ln] = '\0';
+
+      printf("Digite o semestre: ");
+      scanf("%d",&listDis[numDis].semDis);
+      getchar();
   
-    printf("Digite o nome do professor desta disciplina: ");
-    while(listDis[numDis].profDis!==listProf[numProf].nomeProf || listDis[numDis].profDis!=="X"){
-      fgets(listDis[numDis].profDis, 40, stdin);
-      if (listDis[numDis].profDis[ln] == '\n')
-          listDis[numDis].profDis[ln] = '\0';
-
-      if(listDis[numDis].profDis!=listProf[numProf].nomeProf){
-        printf("Professor não cadastrado, tente outro.\n(Digite 'X' para pular.)\n");
+      printf("Digite a matrícula do professor desta disciplina: ");
+      scanf("%d",&mp);
+      for(int i=0;i<numProf;i++){
+        if(mp==listProf[i].matriculaProf){
+          listDis[numDis].profDis=listProf[i].nomeProf;
+        }
+        else{
+          printf("Professor não encontrado.\n");
+        }
       }
     }
-  
-    return completado;
+      return completado;
 }
