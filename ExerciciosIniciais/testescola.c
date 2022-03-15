@@ -1,11 +1,15 @@
 /* 
 ! Validar Datas.
 ! Incluir a opção de atualizar e excluir nos menus.
+! Relatórios.
+! Verificar se o fpurge funciona.
+! Etc.
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio_ext.h>
 #define n 50
 #define completado 1
 
@@ -39,10 +43,12 @@ typedef struct professor
 typedef struct disciplina
 {
     char nomeDis[30];
-    int codDis;
+    char codDis[10];
     int semDis;
     char profDis[40];   
 } cadDis;
+
+//--------------------
 
 int menuprincipal();
 int menuAlunos();
@@ -54,11 +60,12 @@ int cadastrodis(cadDis listDis[], int numDis);
 void listaraluno(cadAlunos listAlunos[], int numAlunos);
 void listarprof(cadProf listProf[], int numProf);
 void listardis(cadDis listDis[], int numDis);
+int atualizaraluno(cadAlunos listAlunos[], int numAlunos);
 
 //------MAIN-------
 
 int main(void)
-{
+{  
     cadAlunos listAlunos[n];
     cadProf listProf[n];
     cadDis listDis[n];
@@ -90,7 +97,7 @@ int main(void)
                 retorno = cadastroaluno(listAlunos,numAlunos);
                 if (retorno == completado)
                 {
-                  printf("\nCadastro realizado com sucesso!\n");
+                  printf("\nAluno (%d) cadastrado com sucesso!\n",numAlunos);
                   numAlunos++;
                 }
                 break;
@@ -99,6 +106,10 @@ int main(void)
                 listaraluno(listAlunos, numAlunos);
                 break;
               } 
+              case 3:{
+                atualizaraluno(listAlunos, numAlunos);
+                break;
+              }
               default:{
                 printf("Opção Inválida. Tente novamente.");
                 break;
@@ -116,7 +127,7 @@ int main(void)
                 retorno = cadastroprof(listProf,numProf);
                 if (retorno == completado)
                 {
-                  printf("\nCadastro realizado com sucesso!\n");
+                  printf("\nProfessor cadastrado com sucesso!\n");
                   numProf++;
                 }
                 break;
@@ -160,6 +171,7 @@ int main(void)
     }
 }
 }
+
 //-------FUNÇÕES-------
 
 int menuprincipal()
@@ -177,7 +189,7 @@ int menuprincipal()
     return opcao;
 }
 
-//-------ALUNOS------
+//------- F. ALUNOS------
 
 int menuAlunos()
 {
@@ -186,7 +198,8 @@ int menuAlunos()
     printf("0 - Voltar.\n");
     printf("1 - Cadastrar Aluno.\n");
     printf("2 - Listar Alunos.\n");
-    printf("3 - Excluir Aluno.\n");
+    printf("3 - Atualizar Aluno.\n");
+    printf("4 - Excluir Aluno.\n");
     printf("\n> ");
     scanf("%d", &opcaoAlunos);
 
@@ -224,23 +237,77 @@ int cadastroaluno(cadAlunos listAlunos[], int numAlunos)
     if (listAlunos[numAlunos].cpfAluno[ln] == '\n')
         listAlunos[numAlunos].cpfAluno[ln] = '\0';
 
+    __fpurge(stdin);
+
     return completado;
 }
 
 void listaraluno(cadAlunos listAlunos[], int numAlunos)
 {
+    printf("\n*******************");
     for (int i = 0; i < numAlunos; i++)
     {
-        printf("-----\n");
-        printf("Nome: %s\n", listAlunos[i].nome);
+        printf("----------\n");
+        printf("Nome: %s (%d)\n", listAlunos[i].nome, i);
         printf("Matricula: %d\n", listAlunos[i].matriculaAluno);
         printf("CPF: %s\n", listAlunos[i].cpfAluno);
         printf("Sexo: %s\n", listAlunos[i].sexoAluno);
         printf("Data: %d-%d-%d \n", listAlunos[i].dataAluno.dia,listAlunos[i].dataAluno.mes,listAlunos[i].dataAluno.ano);
     }
+    printf("\n*******************");
 }
 
-//-------PROFESSORES-------
+int atualizaraluno(cadAlunos listAlunos[], int numAlunos)
+{
+  int nda;
+
+  printf("\nInforme o número do aluno: ");
+  scanf("%d",&nda);
+  while(nda>numAlunos){
+    printf("(Digite -1 para sair)\nNúmero inválido! Tente outro: ");
+    scanf("%d",&nda);
+  }
+
+  if(nda==-1){
+    printf("\nNão foi possível concluir a operação.");
+  }
+  else{
+    printf("\nDigite a Matrícula do aluno: ");
+    scanf("%d", &listAlunos[nda].matriculaAluno);
+    getchar();
+
+    printf("Digite o nome do aluno: ");
+    fgets(listAlunos[nda].nome, 40, stdin);
+    size_t ln = strlen(listAlunos[nda].nome) - 1;
+    if (listAlunos[nda].nome[ln] == '\n')
+        listAlunos[nda].nome[ln] = '\0';
+
+    printf("Digite o sexo do aluno (M/F): ");
+    fgets(listAlunos[nda].sexoAluno, 2, stdin);
+    if (listAlunos[nda].sexoAluno[ln] == '\n')
+        listAlunos[nda].sexoAluno[ln] = '\0';
+
+    printf("Digite a data de nascimento: (DD.MM.AAAA):\nDia: ");
+    scanf("%d", &listAlunos[nda].dataAluno.dia);
+    printf("Mês: ");
+    scanf("%d",&listAlunos[nda].dataAluno.mes);
+    printf("Ano: ");
+    scanf("%d",&listAlunos[nda].dataAluno.ano);
+    getchar();
+
+    printf("Digite o CPF: ");
+    fgets(listAlunos[nda].cpfAluno, 15, stdin);
+    if (listAlunos[nda].cpfAluno[ln] == '\n')
+        listAlunos[nda].cpfAluno[ln] = '\0';
+
+    __fpurge(stdin);
+    
+    printf("\nDados atualizados com sucesso.");
+    return completado;
+  }
+}
+
+//-------F. PROFESSORES-------
 
 int menuProf()
 {
@@ -287,25 +354,30 @@ int cadastroprof(cadProf listProf[], int numProf)
     if (listProf[numProf].cpfProf[ln] == '\n')
         listProf[numProf].cpfProf[ln] = '\0';
 
+    __fpurge(stdin);
+  
     return completado;
 }
 
 void listarprof(cadProf listProf[], int numProf)
 {
+    printf("\n*******************");
     for (int i = 0; i < numProf; i++)
     {
-        printf("-----\n");
+        printf("----------\n");
         printf("Nome: %s\n", listProf[i].nomeProf);
         printf("Matricula: %d\n", listProf[i].matriculaProf);
         printf("CPF: %s\n", listProf[i].cpfProf);
         printf("Sexo: %s\n", listProf[i].sexoProf);
         printf("Data: %d-%d-%d", listProf[i].dataProf.dia,listProf[i].dataProf.mes,listProf[i].dataProf.ano);
     }
+    printf("\n*******************");
 }
 
-//-------DISCIPLINAS-------
+//-------F. DISCIPLINAS-------
 
-int menuDis(){
+int menuDis()
+{
     int opcaoDis;
     printf("\n-------------------\n...DISCIPLINAS...\nDigite uma Opção:\n\n");
     printf("0 - Voltar.\n");
@@ -314,15 +386,13 @@ int menuDis(){
     printf("3 - Excluir Disciplina.\n");
     printf("\n> ");
     scanf("%d", &opcaoDis);
+    getchar();
 
     return opcaoDis;
 }
 
-int cadastrodis(cadDis listDis[], int numDis){
-
-  printf("\nDigite o código da disciplina: ");
-  scanf("%d", &listDis[numDis].codDis);
-  getchar();
+int cadastrodis(cadDis listDis[], int numDis)
+{
 
   printf("Digite o nome do disciplina: ");
   fgets(listDis[numDis].nomeDis, 40, stdin);
@@ -330,23 +400,32 @@ int cadastrodis(cadDis listDis[], int numDis){
   if (listDis[numDis].nomeDis[ln] == '\n')
       listDis[numDis].nomeDis[ln] = '\0';
 
-    printf("Digite o nome do professor da disciplina: ");
-    fgets(listDis[numDis].profDis, 40, stdin);
-    if (listDis[numDis].profDis[ln] == '\n')
-        listDis[numDis].profDis[ln] = '\0';
+  printf("Digite o código da disciplina: ");
+  fgets(listDis[numDis].codDis, 10, stdin);
+  if (listDis[numDis].codDis[ln] == '\n')
+      listDis[numDis].codDis[ln] = '\0';
 
-    printf("Digite o semestre: ");
-    scanf("%d", &listDis[numDis].semDis);
-    getchar();
+  printf("Digite o nome do professor da disciplina: ");
+  fgets(listDis[numDis].profDis, 40, stdin);
+  if (listDis[numDis].profDis[ln] == '\n')
+      listDis[numDis].profDis[ln] = '\0';
 
-      return completado;
+  printf("Digite o semestre: ");
+  scanf("%d", &listDis[numDis].semDis);
+  getchar();
+
+  __fpurge(stdin);
+  
+  return completado;
   }
 
-void listardis(cadDis listDis[], int numDis){
+void listardis(cadDis listDis[], int numDis)
+{
+      printf("\n*******************");
       for (int i = 0; i < numDis; i++)
     {
-        printf("*******\n");
-        printf("Código: %d\n", listDis[i].codDis);
+        printf("----------\n");
+        printf("Código: %s", listDis[i].codDis);
         printf("Nome: %s\n", listDis[i].nomeDis);
         printf("Semestre: %d\n", listDis[i].semDis);
         printf("Professor: %s\n", listDis[i].profDis);
