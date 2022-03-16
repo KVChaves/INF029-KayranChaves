@@ -1,7 +1,7 @@
-/* 15/03
+/* 634
 ! Validar Datas.
-! Incluir a opção de excluir nos menus.
 ! Relatórios.
+! Testar as funções de excluir.
 ! Etc.
 */
 
@@ -44,6 +44,7 @@ typedef struct disciplina
     char nomeDis[30];
     char codDis[10];
     int semDis;
+    int alunosDis[n];
     char profDis[40];   
 } cadDis;
 
@@ -53,15 +54,22 @@ int menuprincipal();
 int menuAlunos();
 int menuProf();
 int menuDis();
+
 int cadastroaluno(cadAlunos listAlunos[], int numAlunos);
 int cadastroprof(cadProf listProf[], int numProf);
 int cadastrodis(cadDis listDis[], int numDis);
+
 void listaraluno(cadAlunos listAlunos[], int numAlunos);
 void listarprof(cadProf listProf[], int numProf);
 void listardis(cadDis listDis[], int numDis);
+
 int atualizaraluno(cadAlunos listAlunos[], int numAlunos);
 int atualizarprof(cadProf listProf[], int numProf);
 int atualizardis(cadDis listDis[], int numDis);
+
+int excluiraluno(cadAlunos listAlunos[], int numAlunos);
+int excluirprof(cadProf listProf[], int numProf);
+int excluirdis(cadDis listDis[], int numDis);
 
 //------MAIN-------
 
@@ -111,6 +119,10 @@ int main(void)
                 atualizaraluno(listAlunos, numAlunos);
                 break;
               }
+              case 4:{
+                excluiraluno(listAlunos, numAlunos);
+                break;
+              }
               default:{
                 printf("Opção Inválida. Tente novamente.");
                 break;
@@ -141,6 +153,10 @@ int main(void)
                 atualizarprof(listProf, numProf);
                 break;
               }
+              case 4:{
+                excluirprof(listProf, numProf);
+                break;
+              }
               default:{
                 printf("\nOpção Inválida. Tente novamente.\n");
                 break;
@@ -169,6 +185,10 @@ int main(void)
               }
               case 3:{
                 atualizardis(listDis, numDis);
+                break;
+              }
+              case 4:{
+                excluirdis(listDis, numDis);
                 break;
               }
               default:{
@@ -316,6 +336,33 @@ int atualizaraluno(cadAlunos listAlunos[], int numAlunos)
   }
 }
 
+int excluiraluno(cadAlunos listAlunos[], int numAlunos)
+{
+  int eda;
+  int eda2=eda+1;
+  printf("\nInforme o número do aluno: ");
+  scanf("%d",&eda);
+  while(eda>numAlunos){
+    printf("(Digite -1 para sair)\nNúmero inválido! Tente outro: ");
+    scanf("%d",&eda);
+  }
+  
+  if(eda==-1){
+    printf("\nNão foi possível concluir a operação.");
+  }
+  else{
+    for(eda;eda<numAlunos;eda++){
+      listAlunos[eda]=listAlunos[eda2];
+      eda2++;
+    }
+
+    __fpurge(stdin);
+    numAlunos--;
+    printf("\nDados excluídos com sucesso. Numeração atualizada.");
+    return completado;
+  }
+}
+
 //-------F. PROFESSORES-------
 
 int menuProf()
@@ -434,6 +481,33 @@ int atualizarprof(cadProf listProf[], int numProf)
   }
 }
 
+int excluirprof(cadProf listProf[], int numProf)
+{
+  int edp;
+  int edp2=edp+1;
+  printf("\nInforme o número do professor: ");
+  scanf("%d",&edp);
+  while(edp>numProf){
+    printf("(Digite -1 para sair)\nNúmero inválido! Tente outro: ");
+    scanf("%d",&edp);
+  }
+  
+  if(edp==-1){
+    printf("\nNão foi possível concluir a operação.");
+  }
+  else{
+    for(edp;edp<numProf;edp++){
+      listProf[edp]=listProf[edp2];
+      edp2++;
+    }
+
+    __fpurge(stdin);
+    numProf--;
+    printf("\nDados excluídos com sucesso. Numeração atualizada.");
+    return completado;
+  }
+}
+
 //-------F. DISCIPLINAS-------
 
 int menuDis()
@@ -531,6 +605,33 @@ int atualizardis(cadDis listDis[], int numDis)
     __fpurge(stdin);
 
     printf("\nDados atualizados com sucesso.");
+    return completado;
+  }
+}
+
+int excluirdis(cadDis listDis[], int numDis)
+{
+  int edd;
+  int edd2=edd+1;
+  printf("\nInforme o número da disciplina: ");
+  scanf("%d",&edd);
+  while(edd>numDis){
+    printf("(Digite -1 para sair)\nNúmero inválido! Tente outro: ");
+    scanf("%d",&edd);
+  }
+  
+  if(edd==-1){
+    printf("\nNão foi possível concluir a operação.");
+  }
+  else{
+    for(edd;edd<numDis;edd++){
+      listDis[edd]=listDis[edd2];
+      edd2++;
+    }
+
+    __fpurge(stdin);
+    numDis--;
+    printf("\nDados excluídos com sucesso. Numeração atualizada.");
     return completado;
   }
 }
