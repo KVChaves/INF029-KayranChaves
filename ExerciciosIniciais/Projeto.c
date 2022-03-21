@@ -53,6 +53,7 @@ int menuprincipal();
 int menuAlunos();
 int menuProf();
 int menuDis();
+int menuRel();
 
 int cadastroaluno(cadAlunos listAlunos[], int numAlunos);
 void listaraluno(cadAlunos listAlunos[], int numAlunos);
@@ -208,7 +209,7 @@ int main(void)
               }*/
             }//Disciplina.
           case 4:{
-            opcaoRel = menuRel
+            opcaoRel = menuRel();
             switch(opcaoRel){
               case 0:{
                   break;
@@ -260,11 +261,20 @@ int menuAlunos()
 
 int cadastroaluno(cadAlunos listAlunos[], int numAlunos)
 {
-    int teste;
-  
-    printf("\nDigite a Matrícula do aluno: ");
-    scanf("%d", &listAlunos[numAlunos].matriculaAluno);
-    getchar();
+    int teste = 1, tesmat = 1, i;
+
+    while(tesmat > 0){
+      printf("Digite a Matrícula do Aluno: ");
+      scanf("%d", &listAlunos[numAlunos].matriculaAluno);
+      getchar();
+      
+      tesmat = 0;
+      for(i=0;i<numAlunos;i++){
+        if(listAlunos[numAlunos].matriculaAluno == listAlunos[i].matriculaAluno){
+          tesmat++;
+          }
+      }
+        }
 
     printf("Digite o nome do aluno: ");
     fgets(listAlunos[numAlunos].nome, 40, stdin);
@@ -272,18 +282,21 @@ int cadastroaluno(cadAlunos listAlunos[], int numAlunos)
     if (listAlunos[numAlunos].nome[ln] == '\n')
         listAlunos[numAlunos].nome[ln] = '\0';
 
-    do{
+    while(teste != 0){
       printf("Digite o sexo do aluno (M/F): ");
       fgets(listAlunos[numAlunos].sexoAluno, 2, stdin);
       ln = strlen(listAlunos[numAlunos].sexoAluno) -1;
       if (listAlunos[numAlunos].sexoAluno[ln] == '\n')
           listAlunos[numAlunos].sexoAluno[ln] = '\0';
-
+      
       teste = strcmp(listAlunos[numAlunos].sexoAluno,"M");
+        if(teste != 0){
+          teste = strcmp(listAlunos[numAlunos].sexoAluno,"F");
+      }
       if(teste != 0){
-        teste = strcmp(listAlunos[numAlunos].sexoAluno,"F");
-        }
-    }while(teste != 0);
+        printf("Sexo Inválido.\n");
+      }
+      }
 
     printf("Digite a data de nascimento:\n");
     printf("Ano: ");
@@ -356,63 +369,68 @@ void listaraluno(cadAlunos listAlunos[], int numAlunos)
 
 int atualizaraluno(cadAlunos listAlunos[], int numAlunos)
 {
-  int nda, teste;
-  int ndam=numAlunos-1;
+  int i, ndm, teste = 1, num = 0, conf = 0;
+  
+  while(conf == 0){
+  printf("\nInforme a matrícula do aluno a ser atualizado: ");
+  scanf("%d",&ndm);
+  getchar();
 
-  printf("\nInforme o número do aluno: ");
-  scanf("%d",&nda);
-  while(nda>ndam){
-    printf("(Digite -1 para sair)\nNúmero inválido! Tente outro: ");
-    scanf("%d",&nda);
+  conf = 0;
+  for(i=0;i<numAlunos;i++){
+    num++;
+    if(listAlunos[i].matriculaAluno == ndm){
+      conf++;
+      i = numAlunos;
+    }
   }
-
-  if(nda==-1){
-    printf("\nNão foi possível concluir a operação.");
-  }
-  else{
-    printf("\nDigite a Matrícula do aluno: ");
-    scanf("%d", &listAlunos[nda].matriculaAluno);
+    }
+  
+    printf("\nDigite a nova matrícula do aluno: ");
+    scanf("%d", &listAlunos[num].matriculaAluno);
     getchar();
 
     printf("Digite o nome do aluno: ");
-    fgets(listAlunos[nda].nome, 40, stdin);
-    size_t ln = strlen(listAlunos[nda].nome) - 1;
-    if (listAlunos[nda].nome[ln] == '\n')
-        listAlunos[nda].nome[ln] = '\0';
+    fgets(listAlunos[num].nome, 40, stdin);
+    size_t ln = strlen(listAlunos[num].nome) - 1;
+    if (listAlunos[num].nome[ln] == '\n')
+        listAlunos[num].nome[ln] = '\0';
 
-    do{
+    while(teste != 0){
       printf("Digite o sexo do aluno (M/F): ");
-      fgets(listAlunos[nda].sexoAluno, 2, stdin);
-      ln = strlen(listAlunos[nda].sexoAluno) -1;
-      if (listAlunos[nda].sexoAluno[ln] == '\n')
-          listAlunos[nda].sexoAluno[ln] = '\0';
-
-      teste = strcmp(listAlunos[nda].sexoAluno,"M");
-      if(teste != 0){
-        teste = strcmp(listAlunos[nda].sexoAluno,"F");
+      fgets(listAlunos[num].sexoAluno, 2, stdin);
+      ln = strlen(listAlunos[num].sexoAluno) -1;
+      if (listAlunos[num].sexoAluno[ln] == '\n')
+          listAlunos[num].sexoAluno[ln] = '\0';
+      
+      teste = strcmp(listAlunos[num].sexoAluno,"M");
+        if(teste != 0){
+          teste = strcmp(listAlunos[num].sexoAluno,"F");
       }
-      }while(teste != 0);   
+      if(teste != 0){
+        printf("Sexo Inválido.\n");
+      }
+      }
 
     printf("Digite a data de nascimento: (DD.MM.AAAA):\nDia: ");
-    scanf("%d", &listAlunos[nda].dataAluno.dia);
+    scanf("%d", &listAlunos[num].dataAluno.dia);
     printf("Mês: ");
-    scanf("%d",&listAlunos[nda].dataAluno.mes);
+    scanf("%d",&listAlunos[num].dataAluno.mes);
     printf("Ano: ");
-    scanf("%d",&listAlunos[nda].dataAluno.ano);
+    scanf("%d",&listAlunos[num].dataAluno.ano);
     getchar();
 
     printf("Digite o CPF: ");
-    fgets(listAlunos[nda].cpfAluno, 15, stdin);
-    ln = strlen(listAlunos[nda].cpfAluno) -1;
-    if (listAlunos[nda].cpfAluno[ln] == '\n')
-        listAlunos[nda].cpfAluno[ln] = '\0';
+    fgets(listAlunos[num].cpfAluno, 15, stdin);
+    ln = strlen(listAlunos[num].cpfAluno) -1;
+    if (listAlunos[num].cpfAluno[ln] == '\n')
+        listAlunos[num].cpfAluno[ln] = '\0';
 
     __fpurge(stdin);
     
     printf("\nDados atualizados com sucesso.");
     return completado;
   }
-}
 
 int excluiraluno(cadAlunos listAlunos[], int numAlunos)
 {
@@ -464,11 +482,20 @@ int menuProf()
 
 int cadastroprof(cadProf listProf[], int numProf)
 {
-    int teste;
-  
-    printf("\nDigite a Matrícula do professor: ");
-    scanf("%d", &listProf[numProf].matriculaProf);
-    getchar();
+    int teste = 1, tesmat = 1, i;
+
+    while(tesmat > 0){
+      printf("Digite a Matrícula do professor: ");
+      scanf("%d", &listProf[numProf].matriculaProf);
+      getchar();
+      
+      tesmat = 0;
+      for(i=0;i<numProf;i++){
+        if(listProf[numProf].matriculaProf == listProf[i].matriculaProf){
+          tesmat++;
+          }
+      }
+        }
 
     printf("Digite o nome do professor: ");
     fgets(listProf[numProf].nomeProf, 40, stdin);
@@ -476,18 +503,21 @@ int cadastroprof(cadProf listProf[], int numProf)
     if (listProf[numProf].nomeProf[ln] == '\n')
         listProf[numProf].nomeProf[ln] = '\0';
 
-    do{
+    while(teste != 0){
       printf("Digite o sexo do professor (M/F): ");
       fgets(listProf[numProf].sexoProf, 2, stdin);
       ln = strlen(listProf[numProf].sexoProf) -1;
       if (listProf[numProf].sexoProf[ln] == '\n')
           listProf[numProf].sexoProf[ln] = '\0';
-
+      
       teste = strcmp(listProf[numProf].sexoProf,"M");
-      if(teste != 0){
-        teste = strcmp(listProf[numProf].sexoProf,"F");
+        if(teste != 0){
+          teste = strcmp(listProf[numProf].sexoProf,"F");
       }
-      }while(teste != 0);
+      if(teste != 0){
+        printf("Sexo Inválido.\n");
+      }
+      }
 
     printf("Digite a data de nascimento:\n");
     printf("Ano: ");
@@ -558,62 +588,67 @@ void listarprof(cadProf listProf[], int numProf)
 
 int atualizarprof(cadProf listProf[], int numProf)
 {
-  int ndp, teste;
-  int ndpm=numProf-1;
-  printf("\nInforme o número do professor: ");
-  scanf("%d",&ndp);
-  while(ndp>ndpm){
-    printf("(Digite -1 para sair)\nNúmero inválido! Tente outro: ");
-    scanf("%d",&ndp);
-  }
+  int i, ndm, teste = 1, num = 0, conf = 0;
+  
+  while(conf == 0){
+  printf("\nInforme a matrícula do professor a ser atualizado: ");
+  scanf("%d",&ndm);
+  getchar();
 
-  if(ndp==-1){
-    printf("\nNão foi possível concluir a operação.");
+  conf = 0;
+  for(i=0;i<numProf;i++){
+    num++;
+    if(listProf[i].matriculaProf == ndm){
+      conf++;
+      i = numProf;
+    }
   }
-  else{
-    printf("\nDigite a matrícula do professor: ");
-    scanf("%d", &listProf[ndp].matriculaProf);
+    }
+    printf("\nDigite a nova matrícula do professor: ");
+    scanf("%d", &listProf[num].matriculaProf);
     getchar();
 
     printf("Digite o nome do professor: ");
-    fgets(listProf[ndp].nomeProf, 40, stdin);
-    size_t ln = strlen(listProf[ndp].nomeProf) - 1;
-    if (listProf[ndp].nomeProf[ln] == '\n')
-        listProf[ndp].nomeProf[ln] = '\0';
+    fgets(listProf[num].nomeProf, 40, stdin);
+    size_t ln = strlen(listProf[num].nomeProf) - 1;
+    if (listProf[num].nomeProf[ln] == '\n')
+        listProf[num].nomeProf[ln] = '\0';
 
-    do{
+    while(teste != 0){
       printf("Digite o sexo do professor (M/F): ");
-      fgets(listProf[ndp].sexoProf, 2, stdin);
-      ln = strlen(listProf[ndp].sexoProf) -1;
-      if (listProf[ndp].sexoProf[ln] == '\n')
-          listProf[ndp].sexoProf[ln] = '\0';
-
-      teste = strcmp(listProf[ndp].sexoProf,"M");
-      if(teste != 0){
-        teste = strcmp(listProf[ndp].sexoProf,"F");
+      fgets(listProf[num].sexoProf, 2, stdin);
+      ln = strlen(listProf[num].sexoProf) -1;
+      if (listProf[num].sexoProf[ln] == '\n')
+          listProf[num].sexoProf[ln] = '\0';
+      
+      teste = strcmp(listProf[num].sexoProf,"M");
+        if(teste != 0){
+          teste = strcmp(listProf[num].sexoProf,"F");
       }
-      }while(teste != 0);
-
+      if(teste != 0){
+        printf("Sexo Inválido.\n");
+      }
+      }
+  
     printf("Digite a data de nascimento: (DD.MM.AAAA):\nDia: ");
-    scanf("%d", &listProf[ndp].dataProf.dia);
+    scanf("%d", &listProf[num].dataProf.dia);
     printf("Mês: ");
-    scanf("%d",&listProf[ndp].dataProf.mes);
+    scanf("%d",&listProf[num].dataProf.mes);
     printf("Ano: ");
-    scanf("%d",&listProf[ndp].dataProf.ano);
+    scanf("%d",&listProf[num].dataProf.ano);
     getchar();
 
     printf("Digite o CPF: ");
-    fgets(listProf[ndp].cpfProf, 15, stdin);
-    ln = strlen(listProf[ndp].cpfProf) -1;
-    if (listProf[ndp].cpfProf[ln] == '\n')
-        listProf[ndp].cpfProf[ln] = '\0';
+    fgets(listProf[num].cpfProf, 15, stdin);
+    ln = strlen(listProf[num].cpfProf) -1;
+    if (listProf[num].cpfProf[ln] == '\n')
+        listProf[num].cpfProf[ln] = '\0';
 
     __fpurge(stdin);
     
     printf("\nDados atualizados com sucesso.");
     return completado;
   }
-}
 
 int excluirprof(cadProf listProf[], int numProf)
 {
@@ -814,10 +849,36 @@ int menuRel()
     scanf("%d", &opcaoRel);
     getchar();
 
-    return opcaoDis;
+    return opcaoRel;
 }
 
-int sexoalunos (cadAlunos listAlunos[], int numAlunos)
+void sexoalunos (cadAlunos listAlunos[], int numAlunos)
 {
-  
+  int i, teste;
+  printf("\nAlunas Cadastradas no Sistema:\n");
+  for(i=0;i<numAlunos;i++){
+    teste = strcmp(listAlunos[i].sexoAluno, "F");
+    if(teste == 0){
+      printf("\n%s",listAlunos[i].nome);
+    }
+  }
+  printf("--------------------\nAlunos Cadastrados no Sistema:\n");
+  for(i=0;i<numAlunos;i++){
+    teste = strcmp(listAlunos[i].sexoAluno, "M");
+    if(teste == 0){
+      printf("\n%s",listAlunos[i].nome);
+    }
+  }
 }
+
+/*void ordemalfabetica (cadAlunos listAlunos[], int numAlunos)
+{
+  int i, teste;
+  printf("\nAlunos Cadastrados em Ordem Alfabética:\n");
+  for(i=0;i<numAlunos;i++){
+    teste = strcmp(listAlunos[i].nome[0], "A");
+    if(teste == 0){
+      printf("\n%s",listAlunos[i].nome)
+    }
+  }
+}*/
