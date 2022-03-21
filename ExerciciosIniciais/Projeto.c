@@ -1,7 +1,11 @@
 /* 
 ! Incluir Alunos nas Disciplinas.
-! Relatórios.
-! Etc.
+! Listar Alunos ordenados por data de nascimento.
+! Listar Professores ordenados por data de nascimento.
+! Aniversariantes do mês.
+! Lista de pessoas (professor/aluno) a partir de uma string de busca. O usuário informa no mínimo três letras e deve ser listado todas as pessoas que contem essas três letras no nome.
+! Lista de alunos matriculados em menos de 3 disciplinas.
+! Lista de Disciplinas, com nome do professor, que extrapolam 40 vagas.
 */
 
 #include <stdio.h>
@@ -71,6 +75,9 @@ int atualizardis(cadDis listDis[], int numDis);
 int excluirdis(cadDis listDis[], int numDis);
 
 void sexoalunos(cadAlunos listAlunos[], int numAlunos);
+void sexoprof (cadProf listProf[], int numProf);
+void alfabeticaAlunos (cadAlunos listAlunos[], int numAlunos);
+void alfabeticaProf (cadProf listProf[], int numProf);
 
 cadAlunos listAlunos[n];
 cadProf listProf[n];
@@ -216,6 +223,18 @@ int main(void)
                 }
               case 1:{
                 sexoalunos(listAlunos, numAlunos);
+                break;
+              }
+              case 2:{
+                sexoprof (listProf, numProf);
+                break;
+              }
+              case 3:{
+                alfabeticaAlunos(listAlunos, numAlunos);
+                break;
+              }
+              case 4:{
+                alfabeticaProf(listProf, numProf);
                 break;
               }
             }
@@ -841,8 +860,8 @@ int menuRel()
     printf("\n-------------------\n...RELATÓRIOS...\nDigite uma Opção:\n\n");
     printf("0 - Voltar.\n");
     printf("1 - Listar Alunos por Sexo.\n");
-    printf("2 - .\n");
-    printf("3 - .\n");
+    printf("2 - Listar Professores por Sexo\n");
+    printf("3 - Listar Alunos em Ordem Alfabetica.\n");
     printf("4 - .\n");
     printf("5 - .\n");
     printf("\n> ");
@@ -871,14 +890,75 @@ void sexoalunos (cadAlunos listAlunos[], int numAlunos)
   }
 }
 
-/*void ordemalfabetica (cadAlunos listAlunos[], int numAlunos)
+void sexoprof (cadProf listProf[], int numProf)
 {
   int i, teste;
-  printf("\nAlunos Cadastrados em Ordem Alfabética:\n");
-  for(i=0;i<numAlunos;i++){
-    teste = strcmp(listAlunos[i].nome[0], "A");
+  printf("\nProfessoras Cadastradas no Sistema:\n");
+  for(i=0;i<numProf;i++){
+    teste = strcmp(listProf[i].sexoProf, "F");
     if(teste == 0){
-      printf("\n%s",listAlunos[i].nome)
+      printf("\n%s",listProf[i].nomeProf);
     }
   }
-}*/
+  printf("--------------------\nProfessores Cadastrados no Sistema:\n");
+  for(i=0;i<numProf;i++){
+    teste = strcmp(listProf[i].sexoProf, "M");
+    if(teste == 0){
+      printf("\n%s",listProf[i].nomeProf);
+    }
+  }
+}
+
+void alfabeticaAlunos (cadAlunos listAlunos[], int numAlunos)
+{
+  cadAlunos alfabetica[n];
+  int i, j, k;
+  char aux[50];
+
+  for(i=0;i<numAlunos;i++){
+    strcpy(alfabetica[i].nome, listAlunos[i].nome);
+  }
+  
+  printf("\nAlunos Cadastrados em Ordem Alfabética:\n");
+  for(i=0;i<numAlunos;i++){
+    for(j = i+1; j < numAlunos; j++){
+      k = strcmp(alfabetica[i].nome, alfabetica[j].nome);
+      if(k > 0){
+        strcpy(aux, alfabetica[i].nome);
+        strcpy(alfabetica[i].nome, alfabetica[j].nome);
+        strcpy(alfabetica[j].nome, aux);
+      }
+    }
+  }
+  printf("Nomes ordenados alfabeticamente: \n");
+  for(i = 0; i < numAlunos; i++){
+    printf("%s\n", alfabetica[i].nome);
+  }
+}
+
+void alfabeticaProf (cadProf listProf[], int numProf)
+{
+  cadProf alfabeticaP[n];
+  int i, j, k;
+  char aux[50];
+
+  for(i=0;i<numProf;i++){
+    strcpy(alfabeticaP[i].nomeProf, listProf[i].nomeProf);
+  }
+  
+  printf("\nProfessores Cadastrados em Ordem Alfabética:\n");
+  for(i=0;i<numProf;i++){
+    for(j = i+1; j < numProf; j++){
+      k = strcmp(alfabeticaP[i].nomeProf, alfabeticaP[j].nomeProf);
+      if(k > 0){
+        strcpy(aux, alfabeticaP[i].nomeProf);
+        strcpy(alfabeticaP[i].nomeProf, alfabeticaP[j].nomeProf);
+        strcpy(alfabeticaP[j].nomeProf, aux);
+      }
+    }
+  }
+  printf("Nomes ordenados alfabeticamente: \n");
+  for(i = 0; i < numProf; i++){
+    printf("%s\n", alfabeticaP[i].nomeProf);
+  }
+}          
