@@ -2,7 +2,6 @@
 ! Incluir Alunos nas Disciplinas.
 ! Listar Alunos ordenados por data de nascimento.
 ! Listar Professores ordenados por data de nascimento.
-! Aniversariantes do mês.
 ! Lista de pessoas (professor/aluno) a partir de uma string de busca. O usuário informa no mínimo três letras e deve ser listado todas as pessoas que contem essas três letras no nome.
 ! Lista de alunos matriculados em menos de 3 disciplinas.
 ! Lista de Disciplinas, com nome do professor, que extrapolam 40 vagas.
@@ -78,6 +77,7 @@ void sexoalunos(cadAlunos listAlunos[], int numAlunos);
 void sexoprof (cadProf listProf[], int numProf);
 void alfabeticaAlunos (cadAlunos listAlunos[], int numAlunos);
 void alfabeticaProf (cadProf listProf[], int numProf);
+void aniversarios (cadProf listProf[], cadAlunos listAlunos[], int numAlunos, int numProf);
 
 cadAlunos listAlunos[n];
 cadProf listProf[n];
@@ -135,10 +135,10 @@ int main(void)
                 }
                 break;
               }
-              /*default:{
+              default:{
                 printf("Opção Inválida. Tente novamente.");
                 break;
-              }*/
+              }
             }
             break;
           }//Aluno.
@@ -172,10 +172,10 @@ int main(void)
                 }
                 break;
               }
-              /*default:{
+              default:{
                 printf("\nOpção Inválida. Tente novamente.\n");
                 break;
-              }*/
+              }
             }
             break;
           }//Prof.
@@ -214,6 +214,7 @@ int main(void)
                 printf("\nOpção Inválida. Tente novamente.\n");
                 break;
               }*/
+            break;
             }//Disciplina.
           case 4:{
             opcaoRel = menuRel();
@@ -237,6 +238,15 @@ int main(void)
                 alfabeticaProf(listProf, numProf);
                 break;
               }
+              case 5:{
+                aniversarios (listProf, listAlunos, numAlunos, numProf);
+                break;
+              }
+              default:{
+                printf("\nOpção Inválida. Tente novamente.\n");
+                break;
+              }
+              break;
             }
           }//Relatórios.
           }
@@ -862,8 +872,8 @@ int menuRel()
     printf("1 - Listar Alunos por Sexo.\n");
     printf("2 - Listar Professores por Sexo\n");
     printf("3 - Listar Alunos em Ordem Alfabetica.\n");
-    printf("4 - .\n");
-    printf("5 - .\n");
+    printf("4 - Listar Professores em Ordem Alfabetica.\n");
+    printf("5 - Aniversáriantes do Mês.\n");
     printf("\n> ");
     scanf("%d", &opcaoRel);
     getchar();
@@ -878,14 +888,14 @@ void sexoalunos (cadAlunos listAlunos[], int numAlunos)
   for(i=0;i<numAlunos;i++){
     teste = strcmp(listAlunos[i].sexoAluno, "F");
     if(teste == 0){
-      printf("\n%s",listAlunos[i].nome);
+      printf("\n- %s",listAlunos[i].nome);
     }
   }
-  printf("--------------------\nAlunos Cadastrados no Sistema:\n");
+  printf("\n--------------------\nAlunos Cadastrados no Sistema:\n");
   for(i=0;i<numAlunos;i++){
     teste = strcmp(listAlunos[i].sexoAluno, "M");
     if(teste == 0){
-      printf("\n%s",listAlunos[i].nome);
+      printf("\n- %s",listAlunos[i].nome);
     }
   }
 }
@@ -897,14 +907,14 @@ void sexoprof (cadProf listProf[], int numProf)
   for(i=0;i<numProf;i++){
     teste = strcmp(listProf[i].sexoProf, "F");
     if(teste == 0){
-      printf("\n%s",listProf[i].nomeProf);
+      printf("\n- %s",listProf[i].nomeProf);
     }
   }
-  printf("--------------------\nProfessores Cadastrados no Sistema:\n");
+  printf("\n--------------------\nProfessores Cadastrados no Sistema:\n");
   for(i=0;i<numProf;i++){
     teste = strcmp(listProf[i].sexoProf, "M");
     if(teste == 0){
-      printf("\n%s",listProf[i].nomeProf);
+      printf("\n- %s",listProf[i].nomeProf);
     }
   }
 }
@@ -919,7 +929,7 @@ void alfabeticaAlunos (cadAlunos listAlunos[], int numAlunos)
     strcpy(alfabetica[i].nome, listAlunos[i].nome);
   }
   
-  printf("\nAlunos Cadastrados em Ordem Alfabética:\n");
+  printf("\nAlunos Cadastrados em Ordem Alfabética:\n\n");
   for(i=0;i<numAlunos;i++){
     for(j = i+1; j < numAlunos; j++){
       k = strcmp(alfabetica[i].nome, alfabetica[j].nome);
@@ -930,9 +940,8 @@ void alfabeticaAlunos (cadAlunos listAlunos[], int numAlunos)
       }
     }
   }
-  printf("Nomes ordenados alfabeticamente: \n");
   for(i = 0; i < numAlunos; i++){
-    printf("%s\n", alfabetica[i].nome);
+    printf("- %s\n", alfabetica[i].nome);
   }
 }
 
@@ -946,7 +955,7 @@ void alfabeticaProf (cadProf listProf[], int numProf)
     strcpy(alfabeticaP[i].nomeProf, listProf[i].nomeProf);
   }
   
-  printf("\nProfessores Cadastrados em Ordem Alfabética:\n");
+  printf("\nProfessores Cadastrados em Ordem Alfabética:\n\n");
   for(i=0;i<numProf;i++){
     for(j = i+1; j < numProf; j++){
       k = strcmp(alfabeticaP[i].nomeProf, alfabeticaP[j].nomeProf);
@@ -957,8 +966,26 @@ void alfabeticaProf (cadProf listProf[], int numProf)
       }
     }
   }
-  printf("Nomes ordenados alfabeticamente: \n");
   for(i = 0; i < numProf; i++){
-    printf("%s\n", alfabeticaP[i].nomeProf);
+    printf("- %s\n", alfabeticaP[i].nomeProf);
   }
-}          
+}        
+
+void aniversarios (cadProf listProf[], cadAlunos listAlunos[], int numAlunos, int numProf)
+{
+  int mes, i;
+  printf("Informe o mês: \n");
+  scanf("%d",&mes);
+
+  printf("Anivérsariantes do Mês %d:\n\n",mes);
+  for(i=0;i<numAlunos;i++){
+    if(listAlunos[i].dataAluno.mes == mes){
+      printf("- %s (Aluno)\n",listAlunos[i].nome);
+    }
+  }
+  for(i=0;i<numProf;i++){
+    if(listProf[i].dataProf.mes == mes){
+      printf("- %s (Prof.)\n",listProf[i].nomeProf); 
+    }
+}
+}
