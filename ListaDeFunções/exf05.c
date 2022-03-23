@@ -11,17 +11,17 @@ typedef struct numeros
 } nums;
 
 nums stp;
+int saida;
 
 int main(void){
 
-  ler4num(stp)
+  saida = ler4num(stp);
   
-  printf("%d"stp.num1);  
+  printf("%d",stp.num1);  
   printf("%d",stp.num2);  
   printf("%d",stp.num3);  
   printf("%d",stp.num4);
 
-  return 0;
 }
 
 int ler4num (nums stp){
