@@ -46,38 +46,10 @@ typedef struct disciplina
     char nomeDis[30];
     char codDis[10];
     int semDis;
-    int alunosDis[n];
     char profDis[40];   
 } cadDis;
 
 //--------------------
-
-int menuprincipal();
-int menuAlunos();
-int menuProf();
-int menuDis();
-int menuRel();
-
-int cadastroaluno(cadAlunos listAlunos[], int numAlunos);
-void listaraluno(cadAlunos listAlunos[], int numAlunos);
-int atualizaraluno(cadAlunos listAlunos[], int numAlunos);
-int excluiraluno(cadAlunos listAlunos[], int numAlunos);
-
-int cadastroprof(cadProf listProf[], int numProf);
-void listarprof(cadProf listProf[], int numProf);
-int atualizarprof(cadProf listProf[], int numProf);
-int excluirprof(cadProf listProf[], int numProf);
-
-int cadastrodis(cadDis listDis[], int numDis);
-void listardis(cadDis listDis[], int numDis);
-int atualizardis(cadDis listDis[], int numDis);
-int excluirdis(cadDis listDis[], int numDis);
-
-void sexoalunos(cadAlunos listAlunos[], int numAlunos);
-void sexoprof (cadProf listProf[], int numProf);
-void alfabeticaAlunos (cadAlunos listAlunos[], int numAlunos);
-void alfabeticaProf (cadProf listProf[], int numProf);
-void aniversarios (cadProf listProf[], cadAlunos listAlunos[], int numAlunos, int numProf);
 
 cadAlunos listAlunos[n];
 cadProf listProf[n];
@@ -97,7 +69,15 @@ int main(void)
 
     while (!sair)
     {
-        opcao = menuprincipal();
+      int opcao;
+      printf("\n-------------------\nDigite uma Opção:\n\n");
+      printf("0 - Sair.\n");
+      printf("1 - Gerenciar Alunos.\n");
+      printf("2 - Gerenciar Professores.\n");
+      printf("3 - Gerenciar Disciplinas.\n");
+      printf("4 - Relatórios.\n");
+      printf("\n> ");
+      scanf("%d", &opcao);
 
         switch (opcao){
           case 0:{
@@ -106,77 +86,11 @@ int main(void)
             break;
           }
           case 1:{
-            opcaoAlunos = menuAlunos();
-            switch (opcaoAlunos){
-              case 0:{
-                break;
-              }
-              case 1:{
-                retorno = cadastroaluno(listAlunos,numAlunos);
-                if (retorno == completado)
-                {
-                  printf("\nAluno (%d) cadastrado com sucesso!\n",numAlunos);
-                  numAlunos++;
-                }
-                break;
-              }
-              case 2:{
-                listaraluno(listAlunos, numAlunos);
-                break;
-              } 
-              case 3:{
-                atualizaraluno(listAlunos, numAlunos);
-                break;
-              }
-              case 4:{
-                retorno = excluiraluno(listAlunos, numAlunos);
-                if(retorno == completado){
-                  numAlunos--;
-                }
-                break;
-              }
-              default:{
-                printf("Opção Inválida. Tente novamente.");
-                break;
-              }
-            }
+            menuAlunos();
             break;
           }//Aluno.
           case 2:{
-            opcaoProf = menuProf();
-            switch (opcaoProf){
-              case 0:{
-                break;
-              }
-              case 1:{
-                retorno = cadastroprof(listProf,numProf);
-                if (retorno == completado)
-                {
-                  printf("\nProfessor (%d) cadastrado com sucesso!\n",numProf);
-                  numProf++;
-                }
-                break;
-              }
-              case 2:{
-                listarprof(listProf, numProf);
-                break;
-              }
-              case 3:{
-                atualizarprof(listProf, numProf);
-                break;
-              }
-              case 4:{
-                retorno = excluirprof(listProf, numProf);
-                if(retorno == completado){
-                  numProf--;
-                }
-                break;
-              }
-              default:{
-                printf("\nOpção Inválida. Tente novamente.\n");
-                break;
-              }
-            }
+            menuProf();
             break;
           }//Prof.
           case 3:{
@@ -210,10 +124,6 @@ int main(void)
                 break;
                 }
               }
-              /*default:{
-                printf("\nOpção Inválida. Tente novamente.\n");
-                break;
-              }*/
             break;
             }//Disciplina.
           case 4:{
@@ -256,37 +166,9 @@ int main(void)
 
 //-------FUNÇÕES-------
 
-int menuprincipal()
-{
-    int opcao;
-    printf("\n-------------------\nDigite uma Opção:\n\n");
-    printf("0 - Sair.\n");
-    printf("1 - Gerenciar Alunos.\n");
-    printf("2 - Gerenciar Professores.\n");
-    printf("3 - Gerenciar Disciplinas.\n");
-    printf("4 - Relatórios.\n");
-    printf("\n> ");
-    scanf("%d", &opcao);
-
-    return opcao;
-}
-
 //------- F. ALUNOS------
 
-int menuAlunos()
-{
-    int opcaoAlunos;
-    printf("\n-------------------\n.....ALUNOS.....\nDigite uma Opção:\n\n");
-    printf("0 - Voltar.\n");
-    printf("1 - Cadastrar Aluno.\n");
-    printf("2 - Listar Alunos.\n");
-    printf("3 - Atualizar Aluno.\n");
-    printf("4 - Excluir Aluno.\n");
-    printf("\n> ");
-    scanf("%d", &opcaoAlunos);
 
-    return opcaoAlunos;
-}
 
 int cadastroaluno(cadAlunos listAlunos[], int numAlunos)
 {
@@ -494,20 +376,7 @@ int excluiraluno(cadAlunos listAlunos[], int numAlunos)
 
 //-------F. PROFESSORES-------
 
-int menuProf()
-{
-    int opcaoProf;
-    printf("\n-------------------\n...PROFESSORES...\nDigite uma Opção:\n\n");
-    printf("0 - Voltar.\n");
-    printf("1 - Cadastrar Professor.\n");
-    printf("2 - Listar Professores.\n");
-    printf("3 - Atualizar Professor.\n");
-    printf("4 - Excluir Professor.\n");
-    printf("\n> ");
-    scanf("%d", &opcaoProf);
 
-    return opcaoProf;
-}
 
 int cadastroprof(cadProf listProf[], int numProf)
 {
@@ -988,4 +857,29 @@ void aniversarios (cadProf listProf[], cadAlunos listAlunos[], int numAlunos, in
       printf("- %s (Prof.)\n",listProf[i].nomeProf); 
     }
 }
+}
+
+void nascimentoAlunos (cadAlunos listAlunos[], int numAlunos)
+{
+  cadAlunos nascimento[n];
+  int i, j, k;
+  char aux[n];
+
+  for(i=0;i<numAlunos;i++){
+    strcpy(nascimento[i].nome, listAlunos[i].nome);
+    strcpy(nascimento[i].dataAluno, listAlunos[i].dataAluno);
+  
+  printf("\nAlunos Cadastrados em Ordem de Nascimento:\n\n");
+  for(i=0;i<numAlunos;i++){
+    for(j = i+1; j < numAlunos; j++){
+      if(nascimento[i].dataAluno > nascimento[j].dataAluno){
+        strcpy(aux, nascimento[i].nome);
+        strcpy(nascimento[i].nome, nascimento[j].nome);
+        strcpy(nascimento[j].nome, aux);
+      }
+    }
+  }
+  for(i = 0; i < numAlunos; i++){
+    printf("- %s\n", alfabetica[i].nome);
+  }
 }
