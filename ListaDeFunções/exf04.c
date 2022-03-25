@@ -7,11 +7,9 @@ int main(void){
   int vetm[3];
   int ler3num(int vetf[]);
 
-  ler3num (vetm);
+  vetm = ler3num();
   
   printf("Os três números são: %d, %d e %d",vetm[0], vetm[1], vetm[2]);
-
-  return 0;
 }
 
 int ler3num(int vetf[]){
@@ -22,5 +20,7 @@ int ler3num(int vetf[]){
   scanf("%d", &vetf[1]);
   printf("Terceiro: ");
   scanf("%d",&vetf[2]);
+
+  return vetf[];
   
 }
