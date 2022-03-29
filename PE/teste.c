@@ -1,264 +1,9 @@
-/* 
-! Incluir Alunos nas Disciplinas.
-! Validar CPF.
-! Listar Alunos ordenados por data de nascimento.
-! Listar Professores ordenados por data de nascimento.
-! Lista de pessoas (professor/aluno) a partir de uma string de busca. O usuário informa no mínimo três letras e deve ser listado todas as pessoas que contem essas três letras no nome.
-! Lista de alunos matriculados em menos de 3 disciplinas.
-! Lista de Disciplinas, com nome do professor, que extrapolam 40 vagas.
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio_ext.h>
-#define n 50
-#define completado 1
-
-//-------STRUCTS-------
-
-typedef struct data
-{
-    int dia;
-    int mes;
-    int ano;
-} datanasc;
-
-typedef struct pessoas
-{
-    char nome[40];
-    char sexo[2];
-    char cpf[15];
-    datanasc data;
-    int matricula;
-} cadPessoas;
-
-typedef struct disciplina
-{
-    char nomeDis[30];
-    char codDis[10];
-    int semDis;
-    int alunosDis[n];
-    char profDis[40];   
-} cadDis;
-
-//--------------------
-
-int menuprincipal();
-int menuAlunos();
-int menuProf();
-int menuDis();
-int menuRel();
-
-int cadastro(cadPessoas vet[], int num);
-void listar(cadPessoas vet[], int num);
-int atualizar(cadPessoas vet[], int num);
-int excluir(cadPessoas vet[], int num);
-
-int cadastrodis(cadDis listDis[], int numDis);
-void listardis(cadDis listDis[], int numDis);
-int atualizardis(cadDis listDis[], int numDis);
-int excluirdis(cadDis listDis[], int numDis);
-int incluiraluno (int mat[][n], cadDis vet[],  cadPessoas vet2[], int num, int num2);
-void listardisalunos(cadDis vet[], int num, int mat[][n], cadPessoas vet2[], int num2);
-
-void sexo(cadPessoas vet[], int num);
-void alfabetica(cadPessoas vet[], int num);
-void aniversarios(cadPessoas vet[], cadPessoas vet2[], int num, int num2);
-//void busca(cadPessoas vet[], cadPessoas vet2[], int num, int num2);
-
-cadPessoas listAlunos[n];
-cadPessoas listProf[n];
-cadDis listDis[n];
-int alunosDis[n][n]; //[num da disciplina][num dos alunos] primeira coluna armazena o número de alunos da disciplina.
-char *pt1, *pt2;
-int numAlunos = 0;
-int numProf = 0;
-int numDis = 0;
-int opcao, opcaoAlunos, opcaoProf, opcaoDis, opcaoRel, retorno;
-int sair = 0;
-
-//------MAIN-------
-
-int main(void)
-{  
-    printf("- PROJETO ESCOLA -");
-
-    int i;
-    for(i=0;i<n;i++){
-      alunosDis[i][0] = 1;
-    }
-
-    while (!sair)
-    {
-        opcao = menuprincipal();
-
-        switch (opcao){
-          case 0:{
-            printf("\nSAINDO...\n");
-            sair = 1;
-            break;
-          }
-          case 1:{
-            opcaoAlunos = menuAlunos();
-            switch (opcaoAlunos){
-              case 0:{
-                break;
-              }
-              case 1:{
-                retorno = cadastro(listAlunos,numAlunos);
-                if (retorno == completado)
-                {
-                  printf("\nAluno cadastrado com sucesso!\n");
-                  numAlunos++;
-                }
-                break;
-              }
-              case 2:{
-                listar(listAlunos, numAlunos);
-                break;
-              } 
-              case 3:{
-                retorno = atualizar(listAlunos, numAlunos);
-                if (retorno == completado)
-                {
-                  printf("\nDados atualizados com sucesso.");
-                }
-                break;
-              }
-              case 4:{
-                retorno = excluir(listAlunos, numAlunos);
-                if(retorno == completado){
-                  numAlunos--;
-                }
-                break;
-              }
-              default:{
-                printf("Opção Inválida. Tente novamente.");
-                break;
-              }
-            }
-            break;
-          }//Aluno.
-          case 2:{
-            opcaoProf = menuProf();
-            switch (opcaoProf){
-              case 0:{
-                break;
-              }
-              case 1:{
-                retorno = cadastro(listProf,numProf);
-                if (retorno == completado)
-                {
-                  printf("\nProfessor cadastrado com sucesso!\n");
-                  numProf++;
-                }
-                break;
-              }
-              case 2:{
-                listar(listProf, numProf);
-                break;
-              }
-              case 3:{
-                atualizar(listProf, numProf);
-                break;
-              }
-              case 4:{
-                retorno = excluir(listProf, numProf);
-                if(retorno == completado){
-                  numProf--;
-                }
-                break;
-              }
-              default:{
-                printf("\nOpção Inválida. Tente novamente.\n");
-                break;
-              }
-            }
-            break;
-          }//Prof.
-          case 3:{
-            opcaoDis=menuDis();
-            switch(opcaoDis){
-              case 0:{
-                break;
-                }
-              case 1:{
-                retorno = cadastrodis(listDis,numDis);
-                if (retorno == completado)
-                {
-                  printf("\nDisciplina cadastrada com sucesso!\n");
-                  numDis++;
-                }
-                break;
-              }
-              case 2:{
-                listardis(listDis, numDis);
-                break;
-              }
-              case 3:{
-                atualizardis(listDis, numDis);
-                break;
-              }
-              case 4:{
-                retorno = excluirdis(listDis, numDis);
-                if(retorno == completado){
-                  numDis--;
-                }
-                break;
-                }
-              case 5:{
-                incluiraluno(alunosDis, listDis, listAlunos, numDis, numAlunos);
-                break;
-              }
-              case 6:{
-                listardisalunos(listDis, numDis, alunosDis, listAlunos, numAlunos);
-                break;
-              }
-              }
-            break;
-            }//Disciplina.
-          case 4:{
-            opcaoRel = menuRel();
-            switch(opcaoRel){
-              case 0:{
-                  break;
-                }
-              case 1:{
-                sexo(listAlunos, numAlunos);
-                break;
-              }
-              case 2:{
-                sexo(listProf, numProf);
-                break;
-              }
-              case 3:{
-                alfabetica(listAlunos, numAlunos);
-                break;
-              }
-              case 4:{
-                alfabetica(listProf, numProf);
-                break;
-              }
-              case 5:{
-                aniversarios(listProf, listAlunos, numProf ,numAlunos );
-                break;
-              }
-              /*case 6:{
-                busca(listAlunos, listProf, numAlunos, numProf);
-              }*/
-              default:{
-                printf("\nOpção Inválida. Tente novamente.\n");
-                break;
-              }
-              break;
-            }
-          }//Relatórios.
-          }
-    }
-}
-
-//-------F. MENUS-------
+#include "teste.h"
+#include "structs.h"
 
 int menuprincipal()
 {
@@ -315,6 +60,8 @@ int menuDis()
     printf("3 - Atualizar Disciplina.\n");
     printf("4 - Excluir Disciplina.\n");
     printf("5 - Incluir Aluno na Disciplina.\n");
+    printf("6 - Excluir Aluno da Disciplina.\n");
+    printf("7 - Listar Disciplina com Alunos.\n");
     printf("\n> ");
     scanf("%d", &opcaoDis);
     getchar();
@@ -333,18 +80,20 @@ int menuRel()
     printf("4 - Listar Professores em Ordem Alfabetica.\n");
     printf("5 - Aniversáriantes do Mês.\n");
     printf("6 - Busca a partir de 3 letras.\n");
+    printf("7 - Disciplinas com Mais de 40 Vagas.\n");
+    printf("8 - Alunos Matriculados em Menos de 3 Disciplinas.\n");
     printf("\n> ");
     scanf("%d", &opcaoRel);
     getchar();
 
     return opcaoRel;
-}
+  }
 
-//-------F. PESSOAS------
+//---------------------
 
 int cadastro(cadPessoas vet[], int num)
 {
-    int tcpf, teste = 1, tesmat = 1, tescpf = 1, i;
+    int tcpf, tam, teste = 1, tesmat = 1, tescpf = 1, i;
 
     while(tesmat > 0){
       printf("Digite o número de Matrícula: ");
@@ -423,20 +172,26 @@ int cadastro(cadPessoas vet[], int num)
     getchar();
 
     while(tescpf > 0){
+      while(tam != 11){
       printf("Digite o CPF: ");
       fgets(vet[num].cpf, 15, stdin);
       ln = strlen(vet[num].cpf) - 1;
       if (vet[num].cpf[ln] == '\n')
           vet[num].cpf[ln] = '\0';
-      
+        
+      tam = strlen(vet[num].cpf);
+        
       tescpf = 0;
       for(i=0;i<num;i++){
         tcpf = strcmp(vet[num].cpf, vet[i].cpf);
         if(tcpf == 0){
-          tesmat++;
+          tescpf++;
           }
       }
         }
+      }
+
+      vet[num].dismat = 0;
 
 
     __fpurge(stdin);
@@ -578,13 +333,14 @@ int excluir(cadPessoas vet[], int num)
     }  
 
   for(ndp;ndp<num-1;ndp++){
-    strcpy(vet[ndp].nome, vet[ndp+1].nome);
+    vet[ndp] = vet[ndp+1];
+    /*strcpy(vet[ndp].nome, vet[ndp+1].nome);
     strcpy(vet[ndp].cpf, vet[ndp+1].cpf);
     strcpy(vet[ndp].sexo, vet[ndp+1].sexo);
     vet[ndp].matricula = vet[ndp+1].matricula;
     vet[ndp].data.ano = vet[ndp+1].data.ano;
     vet[ndp].data.mes = vet[ndp+1].data.mes;
-    vet[ndp].data.mes = vet[ndp+1].data.dia;
+    vet[ndp].data.mes = vet[ndp+1].data.dia;*/
   }
   
   cadPessoas *ptr;
@@ -596,39 +352,39 @@ int excluir(cadPessoas vet[], int num)
     return completado;
   }
 
-//-------F. DISCIPLINAS-------
+//------------
 
-int cadastrodis(cadDis listDis[], int numDis)
+int cadastrodis(cadDis vet[], cadPessoas vet2[], int num, int num2)
 {
 
   int i, teste;
   
   printf("Digite o semestre da disciplina: ");
-  scanf("%d", &listDis[numDis].semDis);
+  scanf("%d", &vet[num].semDis);
   getchar();
   
   printf("Digite o nome do disciplina: ");
-  fgets(listDis[numDis].nomeDis, 40, stdin);
-  size_t ln = strlen(listDis[numDis].nomeDis) - 1;
-  if (listDis[numDis].nomeDis[ln] == '\n')
-      listDis[numDis].nomeDis[ln] = '\0';
+  fgets(vet[num].nomeDis, 40, stdin);
+  size_t ln = strlen(vet[num].nomeDis) - 1;
+  if (vet[num].nomeDis[ln] == '\n')
+      vet[num].nomeDis[ln] = '\0';
 
   printf("Digite o código da disciplina: ");
-  fgets(listDis[numDis].codDis, 10, stdin);
-  ln = strlen(listDis[numDis].codDis) -1;
-  if (listDis[numDis].codDis[ln] == '\n')
-      listDis[numDis].codDis[ln] = '\0';
+  fgets(vet[num].codDis, 10, stdin);
+  ln = strlen(vet[num].codDis) -1;
+  if (vet[num].codDis[ln] == '\n')
+      vet[num].codDis[ln] = '\0';
 
   printf("Insira o nome do professor: ");
-  fgets(listDis[numDis].profDis, 40, stdin);
-  ln = strlen(listDis[numDis].profDis) -1;
-  if (listDis[numDis].profDis[ln] == '\n')
-      listDis[numDis].profDis[ln] = '\0';
+  fgets(vet[num].profDis, 40, stdin);
+  ln = strlen(vet[num].profDis) -1;
+  if (vet[num].profDis[ln] == '\n')
+      vet[num].profDis[ln] = '\0';
 
-  for(i=0;i<numProf;i++){
-    teste = strcmp(listDis[numDis].profDis,listProf[i].nome);
+  for(i=0;i<num2;i++){
+    teste = strcmp(vet[num].profDis,vet2[i].nome);
     if(teste == 0){
-      i=numProf;
+      i=num2;
     }
     }
   if(teste!=0){
@@ -640,23 +396,23 @@ int cadastrodis(cadDis listDis[], int numDis)
   }
 }
 
-void listardis(cadDis listDis[], int numDis)
+void listardis(cadDis vet[], int num)
 {
       printf("\n*******************\n");
-      for (int i = 0; i < numDis; i++)
+      for (int i = 0; i < num; i++)
     {
         printf("----------\n");
-        printf("Nome: %s\n", listDis[i].nomeDis);
-        printf("Código: %s\n", listDis[i].codDis);
-        printf("Semestre: %d\n", listDis[i].semDis);
-        printf("Professor: %s\n", listDis[i].profDis);
+        printf("Nome: %s\n", vet[i].nomeDis);
+        printf("Código: %s\n", vet[i].codDis);
+        printf("Semestre: %d\n", vet[i].semDis);
+        printf("Professor: %s\n", vet[i].profDis);
     }
       printf("\n*******************");
 }
 
-void listardisalunos(cadDis vet[], int num, int mat[][n], cadPessoas vet2[], int num2)
+void listarDCA(cadDis vet[], int num, aldis mat[][n], cadPessoas vet2[], int num2)
 {
-  int i, tam, teste, ndd, ndp, conf = 0;
+  int i, tam, teste, ndd = -1, ndp, conf = 0;
   char codigo[10];
 
   while(conf == 0){
@@ -665,7 +421,6 @@ void listardisalunos(cadDis vet[], int num, int mat[][n], cadPessoas vet2[], int
   size_t ln = strlen(codigo) - 1;
   if (codigo[ln] == '\n')
       codigo[ln] = '\0';
-  getchar();
 
   conf = 0;
   for(i=0;i<num;i++){
@@ -684,17 +439,16 @@ void listardisalunos(cadDis vet[], int num, int mat[][n], cadPessoas vet2[], int
         printf("Professor: %s\n", vet[ndd].profDis);
 
   printf("\nAlunos Matriculados:\n\n");
-  tam = mat[ndd][0];
+  tam = mat[ndd][0].numA;
   for(i=1;i<tam;i++){
-    ndp = mat[ndd][i];
-    printf("- %s",vet2[ndp].nome);
+    printf("- %s\n",mat[ndd][i].nomeA);
   }
 }
 
-int atualizardis(cadDis listDis[], int numDis)
+int atualizardis(cadDis vet[], int num, cadPessoas vet2[], int num2)
 {
-  int i, ndd, teste, conf = 0;
-  int nddm=numDis-1;
+  int i, ndd = -1, teste, conf = 0;
+  int nddm=num-1;
   char codigo[10];
 
   while(conf == 0){
@@ -703,39 +457,44 @@ int atualizardis(cadDis listDis[], int numDis)
   size_t ln = strlen(codigo) - 1;
   if (codigo[ln] == '\n')
       codigo[ln] = '\0';
-  getchar();
-
+    
   conf = 0;
-  for(i=0;i<numDis;i++){
-    teste = strcmp(listDis[i].codDis, codigo);
+  for(i=0;i<num;i++){
+    teste = strcmp(vet[i].codDis, codigo);
     ndd++;
     if(teste == 0){
       conf++;
-      i = numDis;
+      i = num;
     }
   }
     }
   
     printf("Digite o semestre da disciplina: ");
-    scanf("%d", &listDis[ndd].semDis);
+    scanf("%d", &vet[ndd].semDis);
     getchar();
     
     printf("Digite o nome do disciplina: ");
-    fgets(listDis[ndd].nomeDis, 40, stdin);
-    size_t ln = strlen(listDis[ndd].nomeDis) - 1;
-    if (listDis[ndd].nomeDis[ln] == '\n')
-        listDis[ndd].nomeDis[ln] = '\0';
+    fgets(vet[ndd].nomeDis, 40, stdin);
+    size_t ln = strlen(vet[ndd].nomeDis) - 1;
+    if (vet[ndd].nomeDis[ln] == '\n')
+        vet[ndd].nomeDis[ln] = '\0';
 
     printf("Digite o código da disciplina: ");
-    fgets(listDis[ndd].codDis, 10, stdin);
-    ln = strlen(listDis[ndd].codDis) -1;
-    if (listDis[ndd].codDis[ln] == '\n')
-        listDis[ndd].codDis[ln] = '\0';
+    fgets(vet[ndd].codDis, 10, stdin);
+    ln = strlen(vet[ndd].codDis) -1;
+    if (vet[ndd].codDis[ln] == '\n')
+        vet[ndd].codDis[ln] = '\0';
 
-  for(i=0;i<numProf;i++){
-    teste = strcmp(listDis[ndd].profDis,listProf[i].nome);
+    printf("Insira o nome do professor: ");
+    fgets(vet[ndd].profDis, 40, stdin);
+    ln = strlen(vet[ndd].profDis) -1;
+    if (vet[ndd].profDis[ln] == '\n')
+        vet[ndd].profDis[ln] = '\0';
+
+  for(i=0;i<num2;i++){
+    teste = strcmp(vet[ndd].profDis,vet2[i].nome);
     if(teste == 0){
-      i=numProf;
+      i=num2;
     }
     }
   if(teste!=0){
@@ -749,11 +508,11 @@ int atualizardis(cadDis listDis[], int numDis)
   }
   }
 
-int excluirdis(cadDis listDis[], int numDis)
-{
+int excluirdis(cadDis vet[], cadPessoas vet2[], aldis mat[][n], int num, int num2)
+{ 
   
-  int i, ndd, teste, conf = 0;
-  int nddm=numDis-1;
+  int i, ndd = -1, teste, conf = 0;
+  int nddm=num-1;
   char codigo[10];
 
   while(conf == 0){
@@ -762,28 +521,52 @@ int excluirdis(cadDis listDis[], int numDis)
   size_t ln = strlen(codigo) - 1;
   if (codigo[ln] == '\n')
       codigo[ln] = '\0';
-  getchar();
 
   conf = 0;
-  for(i=0;i<numDis;i++){
-    teste = strcmp(listDis[i].codDis, codigo);
+  for(i=0;i<num;i++){
+    teste = strcmp(vet[i].codDis, codigo);
     ndd++;
     if(teste == 0){
       conf++;
-      i = numDis;
+      i = num;
     }
   }
     }
+
+  //------------------
+  int teste2, tam, j;
+
+  tam = mat[ndd][0].numA;
   
-  cadDis *ptr1, *ptr2, *ptr3;
-  ptr1 = &listDis[ndd];
-  ptr2 = &listDis[ndd+1];
-  ptr3 = &listDis[ndd-1];
-  
-    for(ndd;ndd<numDis;ndd++){
-      ptr1 = ptr2;
-      ptr3 = NULL;
+  for(i=0;i<num2;i++){
+    for(j=1;j<tam;j++){
+      teste2 = strcmp(mat[ndd][j].nomeA, vet2[i].nome);
+       if(teste2 == 0){
+         vet2[j].dismat--;
+  }
     }
+    }
+  //------------------
+  
+  int nd = ndd;
+  
+  for(ndd;ndd<num-1;ndd++){
+    strcpy(vet[ndd].nomeDis, vet[ndd+1].nomeDis);
+    strcpy(vet[ndd].codDis, vet[ndd+1].codDis);
+    strcpy(vet[ndd].profDis, vet[ndd+1].profDis);
+    vet[ndd].semDis = vet[ndd+1].semDis;
+  }
+  
+  for(nd;nd<num;nd++){
+    mat[nd][0].numA = mat[nd+1][0].numA;
+    for(i=1;i<num;i++){
+      strcpy(mat[nd][i].nomeA,mat[nd+1][i].nomeA);
+    }
+  }
+  
+  cadDis *ptr;
+  ptr = &vet[num-1];
+  ptr = NULL;
     
     __fpurge(stdin);
     printf("\nDados excluídos com sucesso.");
@@ -791,9 +574,9 @@ int excluirdis(cadDis listDis[], int numDis)
     
   }    
 
-int incluiraluno (int mat[][n], cadDis vet[],  cadPessoas vet2[], int num, int num2)
+int incluiraluno (aldis mat[][n], cadDis vet[],  cadPessoas vet2[], int num, int num2)
 {
-  int i, val, ndm, ndp, teste, conf = 0, ndd = -1;
+  int i, val, ndm, ndp = -1, teste, conf = 0, ndd = -1;
   char codigo[10];
   
   while(conf == 0){
@@ -832,16 +615,81 @@ int incluiraluno (int mat[][n], cadDis vet[],  cadPessoas vet2[], int num, int n
   }
     }
 
-  val = mat[ndd][0];
-  mat[ndd][val] = ndp;
+  val = mat[ndd][0].numA;
+  strcpy(mat[ndd][val].nomeA, vet2[ndp].nome);
   val++;
-  mat[ndd][0]=val;
+  mat[ndd][0].numA=val;
 
-  printf("\nO aluno foi matriculado em %s.", vet[ndd].nomeDis);
+  printf("\nO aluno %s foi matriculado em %s.", vet2[ndp].nome, vet[ndd].nomeDis);
+
+  vet2[ndp].dismat++;
   
 }
 
-//-------RELATÓRIOS------
+int excluiraluno (aldis mat[][n], cadDis vet[],  cadPessoas vet2[], int num, int num2)
+{
+  int i, k, aux, val, ndm, ndp = -1, teste, conf = 0, ndd = -1;
+  char codigo[10];
+  
+  while(conf == 0){
+  printf("\nInforme o código da disciplina: ");
+  fgets(codigo, 10, stdin);
+  size_t ln = strlen(codigo) - 1;
+  if (codigo[ln] == '\n')
+      codigo[ln] = '\0';
+
+  conf = 0;
+  for(i=0;i<num;i++){
+    teste = strcmp(vet[i].codDis, codigo);
+    ndd++;
+    if(teste == 0){
+      conf++;
+      i = num;
+    }
+  }
+    }
+
+  printf("Excluir aluno de %s.\n",vet[ndd].nomeDis);
+  conf = 0;
+  
+  while(conf == 0){
+  printf("\nInforme a matrícula do aluno a ser excluído: ");
+  scanf("%d",&ndm);
+  getchar();
+
+  conf = 0;
+  for(i=0;i<num2;i++){
+    ndp++;
+    if(vet2[i].matricula == ndm){
+      conf++;
+      i = num2;
+    }
+  }
+    }
+
+  val = mat[ndd][0].numA;
+  for(k=1;k<val;k++){
+    teste = strcmp(mat[ndd][k].nomeA, vet2[ndp].nome);
+    if(teste == 0){
+      aux = k;
+      k = val;
+    }
+  }
+
+  for(aux;aux<val;aux++){
+    strcpy(mat[ndd][aux].nomeA, mat[ndd][aux+1].nomeA);
+  }
+  
+  val--;
+  mat[ndd][0].numA=val;
+
+  printf("\nO aluno %s foi desmatriculado em %s.", vet2[ndp].nome, vet[ndd].nomeDis);
+
+  vet2[ndp].dismat--;
+  
+}
+
+//--------------
 
 void sexo(cadPessoas vet[], int num)
 {
@@ -869,7 +717,7 @@ void alfabetica(cadPessoas vet[], int num)
   char aux[50];
 
   for(i=0;i<num;i++){
-    strcpy(alfabetica[i].nome, listAlunos[i].nome);
+    strcpy(alfabetica[i].nome, vet[i].nome);
   }
   
   printf("\nNomes em Ordem Alfabética:\n\n");
@@ -907,90 +755,56 @@ void aniversarios(cadPessoas vet[], cadPessoas vet2[], int num, int num2)
 }
 }
 
-/*void busca(cadPessoas vet[], cadPessoas vet2[], int num, int num2)
+void numvagas(aldis mat[][n], cadDis vet[], int num)
 {
-  string lt1[1], lt2[1], lt3[1];
-  int teste;
-  
-  printf("Informe 3 letras para a pesquisa: \n");
-  printf("> ");
-  scanf("%s",&lt1);
-  printf("> ");
-  scanf("%s",&lt2);
-  printf("> ");
-  scanf("%s",&lt3);
+  int i, val, vagas;
+  printf("\nDisciplians com Mais de 40 Vagas:\n");
+  for(i=0;i<num;i++){
+    val = mat[i][0].numA;
+    vagas = n - val;
+    vagas++;
+    if(vagas > 40){
+      printf("\nDisciplina: %s\n",vet[i].nomeDis);
+      printf("Professor: %s\n",vet[i].profDis);
+      printf("Vagas: %d\n",vagas);
+    }
+  }
+}
 
-  int i, j, k, l, tam;
+void busca(cadPessoas vet[], cadPessoas vet2[], int num, int num2)
+{
+  int i;
+  char strbusca[10], *ponteiro;
+
+  printf("\nInsira de 3 à 10 letras para a pesquisa:\n");
+  fgets(strbusca, 10, stdin);
+  size_t ln = strlen(strbusca) - 1;
+  if (strbusca[ln] == '\n')
+      strbusca[ln] = '\0';
 
   for(i=0;i<num;i++){
-    tam = strlen(vet[i].nome);
-    for(j=0;j<tam;j++){
-      teste = strcmp(vet[i].nome[j], lt1);
-      if(teste == 0){
-        for(k=0;k<tam;k++){
-          teste = strcmp(vet[i].nome[k], lt2);
-          if(teste == 0){
-            for(l=0;l<tam;l++){
-              teste = strcmp(vet[i].nome[l], lt3);
-              if(teste == 0){
-                printf("%s",vet[i].nome);
-                j = tam;
-                k = tam;
-                l = tam;
-              }
-          }
-        }
-      }
+    ponteiro = strstr(vet[i].nome, strbusca);
+    if(ponteiro){
+      printf("- %s\n",vet[i].nome);
     }
+  }
+  for(i=0;i<num2;i++){
+    ponteiro = strstr(vet2[i].nome, strbusca);
+    if(ponteiro){
+      printf("- %s\n",vet2[i].nome);
     }
-}
-
- for(i=0;i<num2;i++){
-    tam = strlen(vet2[i].nome);
-    for(j=0;j<tam;j++){
-      teste = strcmp(vet2[i].nome[j], lt1);
-      if(teste == 0){
-        for(k=0;k<tam;k++){
-          teste = strcmp(vet2[i].nome[k], lt2);
-          if(teste == 0){
-            for(l=0;l<tam;l++){
-              teste = strcmp(vet2[i].nome[l], lt3);
-              if(teste == 0){
-                printf("%s",vet2[i].nome);
-                j = tam;
-                k = tam;
-                l = tam;
-              }
-          }
-        }
-      }
-    }
-    }
-}
-}*/
-
-/*void nascimentoAlunos (cadAlunos listAlunos[], int numAlunos)
-{
-  cadAlunos nascimento[n];
-  int i, j, k;
-  char aux[n];
-
-  for(i=0;i<numAlunos;i++){
-    strcpy(nascimento[i].nome, listAlunos[i].nome);
-    strcpy(nascimento[i].dataAluno, listAlunos[i].dataAluno);
+  }
   
-  printf("\nAlunos Cadastrados em Ordem de Nascimento:\n\n");
-  for(i=0;i<numAlunos;i++){
-    for(j = i+1; j < numAlunos; j++){
-      if(nascimento[i].dataAluno > nascimento[j].dataAluno){
-        strcpy(aux, nascimento[i].nome);
-        strcpy(nascimento[i].nome, nascimento[j].nome);
-        strcpy(nascimento[j].nome, aux);
-      }
-    }
-  }
-  for(i = 0; i < numAlunos; i++){
-    printf("- %s\n", alfabetica[i].nome);
-  }
 }
-  }*/
+
+void menos3mat(cadPessoas vet[], int num)
+{
+  printf("\nAlunos Matriculados em Menos de 3 Disciplinas:\n\n");
+  
+  int i;
+  
+  for(i=0;i<num;i++)
+    if(vet[i].dismat < 3){
+      printf("- %s\n",vet[i].nome);
+    }
+}
