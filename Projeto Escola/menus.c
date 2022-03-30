@@ -82,6 +82,8 @@ int menuRel()
     printf("6 - Busca a partir de 3 letras.\n");
     printf("7 - Disciplinas com Mais de 40 Vagas.\n");
     printf("8 - Alunos Matriculados em Menos de 3 Disciplinas.\n");
+    printf("9 - Listar Alunos em Ordem de Nascimento.\n");
+    printf("10 - Listar Professores em Ordem de Nascimento.\n");
     printf("\n> ");
     scanf("%d", &opcaoRel);
     getchar();

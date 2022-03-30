@@ -18,7 +18,6 @@ gcc projeto_main.c disciplinas.c menus.c pessoas.c relatorios.h disciplinas.h me
 #define n 50
 #define completado 1
 
-/*void nascimento (cadPessoas vet[], int num);*/
 cadPessoas listAlunos[n];
 cadPessoas listProf[n];
 cadDis listDis[n];
@@ -213,6 +212,14 @@ int main(void)
               }
               case 8:{
                 menos3mat(listAlunos, numAlunos);
+                break;
+              }
+              case 9:{
+                nascimento(listAlunos, numAlunos);
+                break;
+              }
+              case 10:{
+                nascimento(listProf, numProf);
                 break;
               }
               default:{

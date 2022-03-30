@@ -126,3 +126,60 @@ void menos3mat(cadPessoas vet[], int num)
       printf("- %s\n",vet[i].nome);
     }
 }
+
+void nascimento(cadPessoas vet[], int num)
+{
+  cadPessoas nascimento[n], aux;
+  int i, j, k;
+
+  for(i=0;i<num;i++){
+    nascimento[i].data = vet[i].data;
+  }
+  
+  for(i=0;i<num;i++){
+    for(j = i+1; j < num; j++){
+      if(nascimento[i].data.dia > nascimento[j].data.dia){
+        aux.data = nascimento[i].data;
+        nascimento[i].data = nascimento[j].data;
+        nascimento[j].data = aux.data;
+        i=0;
+      }
+    }
+  }
+  for(i=0;i<num;i++){
+    for(j = i+1; j < num; j++){
+      if(nascimento[i].data.mes > nascimento[j].data.mes){
+        aux.data = nascimento[i].data;
+        nascimento[i].data = nascimento[j].data;
+        nascimento[j].data = aux.data;
+        i=0;
+      }
+    }
+  }
+  for(i=0;i<num;i++){
+    for(j = i+1; j < num; j++){
+      if(nascimento[i].data.ano > nascimento[j].data.ano){
+        aux.data = nascimento[i].data;
+        nascimento[i].data = nascimento[j].data;
+        nascimento[j].data = aux.data;
+        i=0;
+      }
+    }
+  }
+
+  printf("\nMembros Ordenados por Data de Nascimento:\n\n");
+
+  for(i=0;i<num;i++){
+    for(j=0;j<num;j++){
+      if(nascimento[i].data.dia == vet[j].data.dia){
+        if(nascimento[i].data.mes == vet[j].data.mes){
+          if(nascimento[i].data.ano == vet[j].data.ano){
+            printf("\n----------\n");
+            printf("Nome: %s\n",vet[j].nome);
+            printf("Data: %d-%d-%d\n",vet[j].data.dia,vet[j].data.mes,vet[j].data.ano);
+          }
+        }
+      }
+    }
+  }
+}
