@@ -42,7 +42,7 @@ int cadastrodis(cadDis vet[], cadPessoas vet2[], int num, int num2)
     if(teste == 0){
       i=num2;
     }
-    }
+  }
   if(teste!=0){
     printf("\nERRO: Professor não encontrado.");
     }
@@ -121,7 +121,7 @@ int atualizardis(cadDis vet[], int num, cadPessoas vet2[], int num2)
     if(teste == 0){
       i=num2;
     }
-    }
+  }
   if(teste!=0){
     printf("\nERRO: Professor não encontrado.");
     }
@@ -131,7 +131,7 @@ int atualizardis(cadDis vet[], int num, cadPessoas vet2[], int num2)
     printf("\nDados atualizados com sucesso.");
     return completado;
   }
-  }
+}
 
 int excluirdis(cadDis vet[], cadPessoas vet2[], aldis mat[][n], int num, int num2)
 { 
@@ -152,9 +152,9 @@ int excluirdis(cadDis vet[], cadPessoas vet2[], aldis mat[][n], int num, int num
       teste2 = strcmp(mat[ndd][j].nomeA, vet2[i].nome);
        if(teste2 == 0){
          vet2[j].dismat--;
+      }
+    }
   }
-    }
-    }
   //------------------
   
   int nd = ndd;

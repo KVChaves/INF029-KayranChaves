@@ -1,8 +1,16 @@
 /* 
-gcc projeto_main.c disciplinas.c menus.c pessoas.c relatorios.h disciplinas.h menus.h pessoas.h relatorios.c structs.h extras.h extras.c -o exe
-! Listar Alunos ordenados por data de nascimento.
-! Listar Professores ordenados por data de nascimento.
+  PROJETO ESCOLA
+
+  * Disciplina: INF029 - Laboratório de Programação
+  * Aluno: Kayran Vieira Chaves
+  * Data de Criação: 05/03/2022
+  * Última Modificação: 30/03/2022
+
 */
+
+//gcc projeto_main.c disciplinas.c menus.c pessoas.c relatorios.h disciplinas.h menus.h pessoas.h relatorios.c structs.h extras.h extras.c -o exe
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -110,7 +118,11 @@ int main(void)
                 break;
               }
               case 3:{
-                atualizar(listProf, numProf);
+                retorno = atualizar(listProf, numProf);
+                  if (retorno == completado)
+                {
+                  printf("\nDados atualizados com sucesso.");
+                }
                 break;
               }
               case 4:{
@@ -232,60 +244,3 @@ int main(void)
           }
     }
 }
-
-//-----------------
-
-/*void nascimento (cadPessoas vet[], int num)
-{
-  cadPessoas nascimento[n], aux;
-  int i, j, k;
-
-  for(i=0;i<num;i++){
-    nascimento[i].data = vet[i].data;
-  }
-  
-  for(i=0;i<num;i++){
-    for(j = i+1; j < num; j++){
-      if(nascimento[i].data.dia > nascimento[j].data.dia){
-        aux.data = nascimento[i].data;
-        nascimento[i].data = nascimento[j].data;
-        nascimento[j].data = aux.data;
-        i=-0;
-      }
-    }
-  }
-  for(i=0;i<num;i++){
-    for(j = i+1; j < num; j++){
-      if(nascimento[i].data.mes > nascimento[j].data.mes){
-        aux.data = nascimento[i].data;
-        nascimento[i].data = nascimento[j].data;
-        nascimento[j].data = aux.data;
-        i=0;
-      }
-    }
-  }
-  for(i=0;i<num;i++){
-    for(j = i+1; j < num; j++){
-      if(nascimento[i].data.ano > nascimento[j].data.ano){
-        aux.data = nascimento[i].data;
-        nascimento[i].data = nascimento[j].data;
-        nascimento[j].data = aux.data;
-        i=0;
-      }
-    }
-  }
-
-  printf("\nMembros Ordenados por Data de Nascimento:\n\n");
-  for(i=0;i<num;i++){
-    for(j=0;j<num;j++){
-      datanasc *pt1, *pt2;
-      pt1 = &nascimento[j].data;
-      pt2 = &vet[i].data;
-      if(pt1 == pt2){
-        printf("Nome: %s\n",vet[i].nome);
-        printf("Data: %d-%d-%d\n-----",vet[i].data.dia,vet[i].data.mes,vet[i].data.ano);
-      }
-    }
-  }
-  
-}*/

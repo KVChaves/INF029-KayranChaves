@@ -23,9 +23,9 @@ int cadastro(cadPessoas vet[], int num)
       for(i=0;i<num;i++){
         if(vet[num].matricula == vet[i].matricula){
           tesmat++;
-          }
-      }
         }
+      }
+    }
 
     printf("Digite o nome completo: ");
     fgets(vet[num].nome, 40, stdin);
@@ -43,11 +43,11 @@ int cadastro(cadPessoas vet[], int num)
       teste = strcmp(vet[num].sexo,"M");
         if(teste != 0){
           teste = strcmp(vet[num].sexo,"F");
-      }
+        }
       if(teste != 0){
         printf("Sexo Inválido.\n");
       }
-      }
+    }
 
     printf("Digite a data de nascimento:\n");
     printf("Ano: ");
@@ -56,14 +56,14 @@ int cadastro(cadPessoas vet[], int num)
     while(vet[num].data.ano < 1910){
       printf("Inválido.\nAno: ");
       scanf("%d", &vet[num].data.ano);
-      }
+    }
 
     printf("Mês: ");
     scanf("%d",&vet[num].data.mes);
     while(vet[num].data.mes>12){
       printf("Inválido.\nMês: ");
       scanf("%d",&vet[num].data.mes);
-      } 
+    } 
 
     printf("Dia: ");
     scanf("%d",&vet[num].data.dia);
@@ -73,7 +73,7 @@ int cadastro(cadPessoas vet[], int num)
       while(vet[num].data.dia>30){
         printf("Inválido.\nDia: ");
         scanf("%d",&vet[num].data.dia);
-        } 
+      } 
     }
     if(vet[num].data.mes==1||3||5||7||8||10||12)
     {
@@ -105,10 +105,10 @@ int cadastro(cadPessoas vet[], int num)
         tcpf = strcmp(vet[num].cpf, vet[i].cpf);
         if(tcpf == 0){
           tescpf++;
-          }
-      }
         }
       }
+      }
+    }
 
       vet[num].dismat = 0;
 
@@ -137,7 +137,7 @@ void listar(cadPessoas vet[], int num)
 
 int atualizar(cadPessoas vet[], int num)
 {
-  int i, ndm, teste = 1, ndp, conf = 0;
+  int i, ndm, tam, teste = 1, tcpf, tescpf = 1, ndp, conf = 0;
 
   ndp = descpes(vet, num);
   
@@ -165,7 +165,7 @@ int atualizar(cadPessoas vet[], int num)
       if(teste != 0){
         printf("Sexo Inválido.\n");
       }
-      }
+    }
 
 printf("Digite a data de nascimento:\n");
     printf("Ano: ");
@@ -174,14 +174,14 @@ printf("Digite a data de nascimento:\n");
     while(vet[ndp].data.ano < 1910){
       printf("Inválido.\nAno: ");
       scanf("%d", &vet[ndp].data.ano);
-      }
+    }
 
     printf("Mês: ");
     scanf("%d",&vet[ndp].data.mes);
     while(vet[ndp].data.mes>12){
       printf("Inválido.\nMês: ");
       scanf("%d",&vet[ndp].data.mes);
-      } 
+    } 
 
     printf("Dia: ");
     scanf("%d",&vet[ndp].data.dia);
@@ -191,7 +191,7 @@ printf("Digite a data de nascimento:\n");
       while(vet[ndp].data.dia>30){
         printf("Inválido.\nDia: ");
         scanf("%d",&vet[ndp].data.dia);
-        } 
+      } 
     }
     if(vet[ndp].data.mes==1||3||5||7||8||10||12)
     {
@@ -208,11 +208,25 @@ printf("Digite a data de nascimento:\n");
     }
     getchar();
   
-    printf("Digite o CPF: ");
-    fgets(vet[ndp].cpf, 15, stdin);
-    ln = strlen(vet[ndp].cpf) -1;
-    if (vet[ndp].cpf[ln] == '\n')
-        vet[ndp].cpf[ln] = '\0';
+    while(tescpf > 0){
+      while(tam != 11){
+      printf("Digite o CPF: ");
+      fgets(vet[ndp].cpf, 15, stdin);
+      ln = strlen(vet[ndp].cpf) - 1;
+      if (vet[ndp].cpf[ln] == '\n')
+          vet[ndp].cpf[ln] = '\0';
+        
+      tam = strlen(vet[ndp].cpf);
+        
+      tescpf = 0;
+      for(i=0;i<num;i++){
+        tcpf = strcmp(vet[ndp].cpf, vet[i].cpf);
+        if(tcpf == 0){
+          tescpf++;
+        }
+      }
+      }
+    }
 
     __fpurge(stdin);
     
@@ -221,32 +235,12 @@ printf("Digite a data de nascimento:\n");
 
 int excluir(cadPessoas vet[], int num)
 {
-  int i, ndp = -1, ndm, conf = 0;
+  int i, ndp, ndm, conf = 0;
 
-  while(conf == 0){
-  printf("\nInforme a matrícula da pessoa a ser excluida: ");
-  scanf("%d",&ndm);
-  getchar();
-
-  conf = 0;
-  for(i=0;i<num;i++){
-    ndp++;
-    if(vet[i].matricula == ndm){
-      conf++;
-      i = num;
-    }
-  }
-    }  
+  ndp = descpes(vet, num);
 
   for(ndp;ndp<num-1;ndp++){
     vet[ndp] = vet[ndp+1];
-    /*strcpy(vet[ndp].nome, vet[ndp+1].nome);
-    strcpy(vet[ndp].cpf, vet[ndp+1].cpf);
-    strcpy(vet[ndp].sexo, vet[ndp+1].sexo);
-    vet[ndp].matricula = vet[ndp+1].matricula;
-    vet[ndp].data.ano = vet[ndp+1].data.ano;
-    vet[ndp].data.mes = vet[ndp+1].data.mes;
-    vet[ndp].data.mes = vet[ndp+1].data.dia;*/
   }
   
   cadPessoas *ptr;

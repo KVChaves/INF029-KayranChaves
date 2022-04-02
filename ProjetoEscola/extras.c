@@ -15,6 +15,7 @@ int descdis(cadDis vet[], int num)
   char codigo[10];
   
   while(conf == 0){
+  ndd = -1;
   printf("\nInforme o código da disciplina: ");
   fgets(codigo, 10, stdin);
   size_t ln = strlen(codigo) - 1;
@@ -28,9 +29,9 @@ int descdis(cadDis vet[], int num)
     if(teste == 0){
       conf++;
       i = num;
+      }
     }
   }
-    }
 
   return ndd;
 }
@@ -40,6 +41,7 @@ int descpes(cadPessoas vet[], int num)
   int conf = 0, ndm, i, ndp = -1;
   
   while(conf == 0){
+  ndp = -1;
   printf("\nInforme a matrícula da pessoa: ");
   scanf("%d",&ndm);
   getchar();
@@ -50,9 +52,8 @@ int descpes(cadPessoas vet[], int num)
     if(vet[i].matricula == ndm){
       conf++;
       i = num;
+      }
     }
   }
-    }
-
   return ndp;
 }
