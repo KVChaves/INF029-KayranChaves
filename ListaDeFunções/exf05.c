@@ -10,30 +10,31 @@ typedef struct numeros
   int num4;
 } nums;
 
+nums ler4num (nums stc);
 nums stp;
 int saida;
 
 int main(void){
 
-  saida = ler4num(stp);
+  stp = ler4num(stp);
   
-  printf("%d",stp.num1);  
-  printf("%d",stp.num2);  
-  printf("%d",stp.num3);  
+  printf("%d\n",stp.num1);  
+  printf("%d\n",stp.num2);  
+  printf("%d\n",stp.num3);  
   printf("%d",stp.num4);
 
 }
 
-int ler4num (nums stp){
+nums ler4num (nums stc){
 
   printf("1º número: ");
-  scanf("%d",&stp.num1);
+  scanf("%d",&stc.num1);
   printf("2º número: ");
-  scanf("%d",&stp.num2);
+  scanf("%d",&stc.num2);
   printf("3º número: ");
-  scanf("%d",&stp.num3);
+  scanf("%d",&stc.num3);
   printf("4º número: ");
-  scanf("%d",&stp.num4);
+  scanf("%d",&stc.num4);
 
-  return stp;
+  return stc;
 }

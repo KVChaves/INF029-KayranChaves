@@ -5,22 +5,22 @@
 int main(void){
 
   int vetm[3];
-  int ler3num(int vetf[]);
+  int ler3num(int vet[]);
 
-  vetm = ler3num();
+  ler3num(vetm);
   
   printf("Os três números são: %d, %d e %d",vetm[0], vetm[1], vetm[2]);
 }
 
-int ler3num(int vetf[]){
+int ler3num(int vet[]){
   
   printf("Insira 3 números.\nPrimeiro: ");
-  scanf("%d", &vetf[0]);
+  scanf("%d", &vet[0]);
   printf("Segundo: ");
-  scanf("%d", &vetf[1]);
+  scanf("%d", &vet[1]);
   printf("Terceiro: ");
-  scanf("%d",&vetf[2]);
+  scanf("%d",&vet[2]);
 
-  return vetf[];
+  return 0;
   
 }

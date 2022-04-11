@@ -1,20 +1,22 @@
+//Crie um programa que tenha uma função ler3Letras. Essa função deve ler três letras do usuário e retornar as três letras. A função main deve imprimir essas três letras.
+
 #include <stdio.h>
 
 int main(){
 
+  int ler3let(char let[]);
+  char letras[3];
   
+  ler3let(letras);  
+
+  printf("%s", letras);
   
 }
 
-int ler3let()
+int ler3let(char let[])
 {
   printf("Insira 3 letras:\n");
-  printf("Primeira Letra: \n");
-  scanf("%c",&lt1);
-  printf("Segunda Letra: \n");
-  scanf("%c",&lt2);  
-  printf("Terceira Letra: \n");
-  scanf("%c",&lt3);
-
-  return lt
+  fgets(let, 4, stdin);
+  
+  return 0;
 }
