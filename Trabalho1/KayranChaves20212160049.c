@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "HKayranChaves20212160049.h"
 
 DataQuebrada quebraData(char data[]){
@@ -156,23 +157,65 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
 {
 
     //calcule os dados e armazene nas três variáveis a seguir
-    DiasMesesAnos dma;
 
-    if (q1(datainicial) == 0){
-      dma.retorno = 2;
-      return dma;
-    }else if (q1(datafinal) == 0){
-      dma.retorno = 2;
-      return dma;
-    }else{
-      //verifique se a data final não é menor que a data inicial
-      
-      //calcule a distancia entre as datas
+  char datai[11];
+  char dataf[11];
+  DataQuebrada di, df;
+  int testI, testF, DImaior = 0;
+  DiasMesesAnos dma;
 
+  printf("\nInsira a data inicial: ");
+  fgets(datai, 11, stdin);
+  size_t ln = strlen(datai) - 1;
+  if(datai[ln] == '\n')
+     datai[ln] = '\0';
 
-      //se tudo der certo
-      dma.retorno = 1;
-      return dma;
+  printf("\nInsira a data final: ");
+  fgets(dataf, 11, stdin);
+  ln = strlen(dataf) - 1;
+  if(dataf[ln] == '\n')
+     dataf[ln] = '\0';
+
+  testI = q1(datai);
+  testF = q1(dataf);
+
+  if(testI == 1 && testF == 1)
+  {
+    di = quebraData(datai);
+    df = quebraData(dataf);
+
+    if(di.iAno > df.iAno){
+      DImaior = 1;
+    }
+    else{
+      if(di.iMes > df.iMes){
+        DImaior = 1;
+      }
+      else{
+        if(di.iDia > df.iDia){
+          DImaior = 1;
+        }
+        else{
+          DImaior = 0;
+        }
+      }
+    }
+  };
+
+  if (testI == 0){
+    dma.retorno = 2;
+    return dma;
+  }else if (testF == 0){
+    dma.retorno = 3;
+    return dma;
+  }else if (testI == 1 && testF == 1 && DImaior == 1){
+    dma.retorno = 4;
+    return dma;
+  }
+  else{    
+    
+    dma.retorno = 1;
+     return dma;
       
     }
     
@@ -188,11 +231,55 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
  @saida
     Um número n >= 0.
  */
-int q3(char *texto, char c, int isCaseSensitive)
+int q3(char texto[], char c, int cs)
 {
-    int qtdOcorrencias = -1;
 
-    return qtdOcorrencias;
+  //Ao invés de fazer no começo faça na hora da comparação.
+
+  int i, j, tam, qtdOcorrencias = 0;
+
+  char *comAc = "ÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛÙüúûùÇçÑñ";
+  char *semAc = "AAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUUuuuuCcNn";
+
+  tam = strlen(texto);
+
+  /*for(i=0;i<48;i++)
+  {
+    if(c == comAc[i])
+    {
+      c = semAc[i];
+    }
+  };*/
+
+  /*for(i=0;i<tam;i++)
+  {
+    for(j=0;j<48;j++)
+    {
+      if(texto[i]==comAc[j])
+      {
+        texto[i]=semAc[j];
+      };
+    }
+  };*/
+
+  if(cs != 1){
+      for(i=0;i<tam;i++){
+        if(texto[i] == toupper(c) || texto[i] == tolower(c)){
+          qtdOcorrencias++;
+        }
+      }
+    }
+  else if(cs == 1){
+    for(i=0;i<tam;i++){
+      if(texto[i] == c){
+        qtdOcorrencias++;
+      }
+    }
+  }
+
+  printf("%s - %c - %d :", texto, c, cs);
+
+  return qtdOcorrencias;
 }
 
 /*

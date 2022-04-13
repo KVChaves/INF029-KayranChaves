@@ -38,7 +38,7 @@ typedef struct Qtd
 
 int q1(char data[]);
 DiasMesesAnos q2(char datainicial[], char datafinal[]);
-int q3(char *texto, char c, int isCaseSensitive);
+int q3(char texto[], char c, int cs);
 int q4(char *strTexto, char *strBusca, int posicoes[30]);
 int q5(int num);
 int q6(int numerobase, int numerobusca);
