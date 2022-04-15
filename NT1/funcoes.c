@@ -223,40 +223,51 @@ int q3(char texto[], char c, int cs)
 
 int q4(char strTexto[], char strBusca[], int posicoes[30])
 {
-  int qtd = 0, tam, tamt, teste, j = 0, i = 0, p = 0;
+  int qtd = 0;
   
-  tam = strlen(strBusca);
-  tamt = strlen(strTexto);
-  char ptexto[tam];
-  int ini = 1, fim = tam;
+  int tam = strlen(strTexto);
+  int tam2 = strlen(strBusca);
 
-  while(tamt>tam){
-  //printf("%d - %d \n",tam, tamt);  
-
-  for(j=0;j<tam;j++){
-    ptexto[j] = strTexto[j];
+  char scop[tam2];
+  int k;
+  for(k=0;k<tam2;k++){
+    scop[k] = 'k';
   }
+  //printf("%s - %d\n", scop, tam2);
   
-  //printf("%s ~ %s\n", ptexto, strBusca);
-  teste = strcmp(ptexto, strBusca);
-  if(teste == 0){
-    qtd++;
-    posicoes[p] = ini;
-    p++;
-    posicoes[p] = fim;
-    p++;
-    //printf("\n%d - %d - %d - %d\n", ini, fim, p, qtd);
+  int i, f=0, f2=0, p=0;
+  
+  int ini = 1, fim = tam2;
+
+  while(tam>=tam2){
+    //printf("%d - %d \n",tam, tam2); 
+    for(i=0;i<tam2;i++){
+      scop[i] = strTexto[f];
+      f++;
+    }
+    //printf("- %s\n", scop);
+    int a = strlen(scop);
+    
+    //printf("- %d - %d\n", a, tam2);
+    //printf("%s - %s\n",scop, strBusca);
+    
+  int teste = strcmp(scop, strBusca);
+    if(teste==0){
+      qtd++;
+      posicoes[p] = ini;
+      p++;
+      posicoes[p] = fim;
+      p++;
+      //printf("%d - %d - %d - %d\n", ini, fim, p, qtd);
     };
-  
-  ini++;
-  fim++;
-
-  for(i=0;i<tamt;i++){
-    strTexto[i]=strTexto[i+1];
-  }
-
-  //printf("%s\n", strTexto);
-  tamt--; 
+    
+    ini++;
+    fim++;
+    //printf("%s\n", strTexto);   
+    scop[0] = '0';
+    tam--;
+    f2++;
+    f = f2;
   }
 
   return qtd;
@@ -295,4 +306,59 @@ int q5(int num)
   num = atoi(invert);
 
   return num;
+}
+
+// #################################################
+
+/*
+ Q6 = ocorrência de um número em outro
+ @objetivo
+    Verificar quantidade de vezes da ocorrência de um número em outro
+ @entrada
+    Um número base (numerobase) e um número de busca (numerobusca).
+ @saida
+    Quantidade de vezes que número de busca ocorre em número base
+ */
+
+int q6(int numerobase, int numerobusca)
+{
+  int qtdOcorrencias = 0, tam = 1, tam2 = 1;
+
+  int val = numerobase;
+  while(val>9){
+    val = val/10;
+    tam++;
+  }  
+  val = numerobusca;
+  while(val>9){
+    val = val/10;
+    tam2++;
+  }   
+
+  char sbas[tam], sbus[tam2];
+  sprintf(sbas, "%d", numerobase);
+  sprintf(sbus, "%d", numerobusca);
+  //printf("%s - %d\n", sbus, tam2);
+
+  char scop[tam2];
+  strcpy(scop, "1");
+  int i, f=0;
+  
+  while(tam>=tam2){
+    for(i=0;i<tam2;i++){
+      scop[i] = sbas[f];
+      f++;
+    }
+
+    //printf("%s - %s\n",scop, sbus);
+
+    int teste = strcmp(scop, sbus);
+    if(teste==0){
+      qtdOcorrencias++;
+    };
+    scop[0] = '0';
+    tam--;
+  }
+  
+  return qtdOcorrencias;
 }
