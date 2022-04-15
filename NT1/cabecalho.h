@@ -15,8 +15,8 @@
 // Última atualização: 07/05/2021
 
 // #################################################
-#ifndef _HKAYRANCHAVES20212160049_H_
-#define _HKAYRANCHAVES20212160049_H_
+#ifndef _CABECALHO_H_
+#define _CABECALHO_H_
 
 typedef struct DQ
 {
@@ -44,4 +44,4 @@ int q5(int num);
 int q6(int numerobase, int numerobusca);
 DataQuebrada quebraData(char data[]);
 
-#endif  // _HKAYRANCHAVES20212160049_H_
+#endif  // _CABECALHO_H_
