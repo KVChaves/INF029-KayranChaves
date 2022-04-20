@@ -15,8 +15,8 @@
 // Última atualização: 07/05/2021
 
 // #################################################
-#ifndef _CABECALHO_H_
-#define _CABECALHO_H_
+#ifndef _KAYRANCHAVES20212160049T1_H_
+#define _KAYRANCHAVES20212160049T1_H_
 
 typedef struct DQ
 {
@@ -37,7 +37,7 @@ typedef struct Qtd
 } DiasMesesAnos;
 
 int q1(char data[]);
-DiasMesesAnos q2(char datainicial[], char datafinal[]);
+DiasMesesAnos q2(char di[], char df[]);
 int q3(char texto[], char c, int cs);
 int q4(char strTexto[], char strBusca[], int posicoes[30]);
 int q5(int num);

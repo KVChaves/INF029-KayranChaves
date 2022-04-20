@@ -20,7 +20,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "cabecalho.h"
+#include <stdio_ext.h>
+#include "KayranChaves20212160049T1.h"
 
 // #################################################
 
@@ -86,17 +87,26 @@ DataQuebrada quebraData(char data[]){
 
   if(dq.iMes > 0 && dq.iMes < 12)
   {
-    if(dq.iDia <= 31 && dq.iDia > 0 && (dq.iMes == 1||3||5||7||8||10||12))
+    if(dq.iMes == 1||3||5||7||8||10||12)
     {
-      dq.valido = 1;
+      if(dq.iDia <= 31 && dq.iDia > 0){
+        dq.valido = 1;
+      };
     }
-    if(dq.iDia <= 30 && dq.iDia > 0 && (dq.iMes == 4||6||9||11))
+    else if(dq.iMes == 4||6||9||11)
     {
-      dq.valido = 1;
+      if(dq.iDia <= 30 && dq.iDia > 0){
+        dq.valido = 1;
+      };
     }
-    if(dq.iDia <= fev && dq.iDia > 0 && dq.iMes == 2)
+    else if(dq.iMes == 2)
     {
-      dq.valido = 1;
+      if(dq.iDia <= fev && dq.iDia > 0){
+        dq.valido = 1;
+      }
+      else{
+        dq.valido = 0;
+      };
     }
     else
     {
@@ -104,14 +114,13 @@ DataQuebrada quebraData(char data[]){
     }
   }
 
-  printf("\n%d\n",fev);
-  printf("%d.%d.%d\n",dq.iDia,dq.iMes,dq.iAno);
+  //printf("\n%d\n",fev);
+  //printf("%d.%d.%d\n",dq.iDia,dq.iMes,dq.iAno);
     
   return dq;
 }
 
 // #################################################
-
 int q1(char data[])
 {
 
@@ -126,68 +135,88 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
 {
 
     //calcule os dados e armazene nas três variáveis a seguir
-
-  char datai[11];
-  char dataf[11];
-  DataQuebrada di, df;
-  int testI, testF, DImaior = 0;
   DiasMesesAnos dma;
+  int im = 0;
 
-  printf("\nInsira a data inicial: ");
-  fgets(datai, 11, stdin);
-  size_t ln = strlen(datai) - 1;
-  if(datai[ln] == '\n')
-     datai[ln] = '\0';
-
-  printf("\nInsira a data final: ");
-  fgets(dataf, 11, stdin);
-  ln = strlen(dataf) - 1;
-  if(dataf[ln] == '\n')
-     dataf[ln] = '\0';
-
-  testI = q1(datai);
-  testF = q1(dataf);
-
-  if(testI == 1 && testF == 1)
-  {
-    di = quebraData(datai);
-    df = quebraData(dataf);
-
-    if(di.iAno > df.iAno){
-      DImaior = 1;
-    }
-    else{
-      if(di.iMes > df.iMes){
-        DImaior = 1;
+    if (q1(datainicial) == 0){
+      dma.retorno = 2;
+      return dma;
+    }else if (q1(datafinal) == 0){
+      dma.retorno = 3;
+      return dma;
+    }else{
+      DataQuebrada di, df;
+      di = quebraData(datainicial);
+      df = quebraData(datafinal);
+      if(di.iAno > df.iAno){
+        im = 1;
+        dma.retorno = 4;
+        return dma;
+      }
+      else if(di.iAno == df.iAno && di.iMes > df.iMes){
+        im = 1;
+        dma.retorno = 4;
+        return dma;
       }
       else{
-        if(di.iDia > df.iDia){
-          DImaior = 1;
-        }
-        else{
-          DImaior = 0;
-        }
+        dma.retorno = 1;
       }
-    }
-  };
+      }
 
-  if (testI == 0){
-    dma.retorno = 2;
-    return dma;
-  }else if (testF == 0){
-    dma.retorno = 3;
-    return dma;
-  }else if (testI == 1 && testF == 1 && DImaior == 1){
-    dma.retorno = 4;
-    return dma;
-  }
-  else{    
-    
-    dma.retorno = 1;
-     return dma;
+      DataQuebrada di, df;
+      di = quebraData(datainicial);
+      df = quebraData(datafinal);
+
+      int fev = 28, fim = 0;
+      DataQuebrada data = di;
+      dma.qtdDias = 0;
+      dma.qtdMeses = 0;
+      dma.qtdAnos = 0;
       
-    }
-    
+      if(data.iAno % 4 == 0 && (data.iAno % 400 == 0 || data.iAno % 100 != 0))
+      {
+        fev = 29;
+      };
+
+      int mes[12] = {31,fev,31,30,31,30,31,31,30,31,30,31};
+      int m = data.iMes - 1;
+
+      while(fim == 0){
+      
+        dma.qtdDias++;
+        data.iDia++;
+        
+        if(data.iDia > mes[data.iMes - 1]){
+          data.iDia = 1;
+          data.iMes++;
+        };
+        
+        if(dma.qtdDias >= mes[m]){
+          dma.qtdDias = 0;
+          dma.qtdMeses++;
+          m++;
+        };
+
+        if(m>11){
+          m = 0;
+        };
+
+        if(data.iMes > 12){
+          data.iMes = 1;
+          data.iAno++;
+        };
+        
+        if(dma.qtdMeses >= 12){
+          dma.qtdMeses = 0;
+          dma.qtdDias = 0;
+          dma.qtdAnos++;
+        };
+
+        if(data.iDia == df.iDia && data.iMes == df.iMes && data.iAno == df.iAno){
+          fim = 1;
+          return dma;
+        };
+      }
 }
 
 // #################################################
@@ -233,7 +262,10 @@ int q4(char strTexto[], char strBusca[], int posicoes[30])
   for(k=0;k<tam2;k++){
     scop[k] = 'k';
   }
-  //printf("%s - %d\n", scop, tam2);
+
+  scop[0] = '\0';
+  
+  printf("%s - %d\n", scop, tam2);
   
   int i, f=0, f2=0, p=0;
   
@@ -249,7 +281,7 @@ int q4(char strTexto[], char strBusca[], int posicoes[30])
     int a = strlen(scop);
     
     //printf("- %d - %d\n", a, tam2);
-    //printf("%s - %s\n",scop, strBusca);
+    printf("%s - %s\n",scop, strBusca);
     
   int teste = strcmp(scop, strBusca);
     if(teste==0){
@@ -258,7 +290,7 @@ int q4(char strTexto[], char strBusca[], int posicoes[30])
       p++;
       posicoes[p] = fim;
       p++;
-      //printf("%d - %d - %d - %d\n", ini, fim, p, qtd);
+      printf("%d - %d - %d - %d\n", ini, fim, p, qtd);
     };
     
     ini++;
