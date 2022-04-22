@@ -24,7 +24,7 @@
 int main()
 {
 
-  int Q = 4;
+  int Q = 1;
 
 // #################################################
   if(Q == 1){
@@ -45,7 +45,7 @@ int main()
   else if(Q == 2){
     char datainicial[11], datafinal[11];
     DiasMesesAnos dma;
-/*
+
     //teste 1
     strcpy(datainicial, "01/06/2015");
     strcpy(datafinal, "01/06/2016");
@@ -55,9 +55,8 @@ int main()
     printf("%d\n", dma.qtdMeses);// == 0);
     printf("%d\n", dma.qtdAnos);// == 1);
 
-   */ 
     //teste 2 - retornos
-
+/*
     strcpy(datainicial, "01/30/2015");
     strcpy(datafinal, "01/06/2016");
     dma = q2(datainicial, datafinal);

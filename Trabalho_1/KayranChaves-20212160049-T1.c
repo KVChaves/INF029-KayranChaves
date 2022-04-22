@@ -265,7 +265,7 @@ int q4(char strTexto[], char strBusca[], int posicoes[30])
 
   scop[0] = '\0';
   
-  printf("%s - %d\n", scop, tam2);
+  //printf("%s - %d\n", scop, tam2);
   
   int i, f=0, f2=0, p=0;
   
@@ -281,7 +281,7 @@ int q4(char strTexto[], char strBusca[], int posicoes[30])
     int a = strlen(scop);
     
     //printf("- %d - %d\n", a, tam2);
-    printf("%s - %s\n",scop, strBusca);
+    //printf("%s - %s\n",scop, strBusca);
     
   int teste = strcmp(scop, strBusca);
     if(teste==0){
@@ -290,7 +290,7 @@ int q4(char strTexto[], char strBusca[], int posicoes[30])
       p++;
       posicoes[p] = fim;
       p++;
-      printf("%d - %d - %d - %d\n", ini, fim, p, qtd);
+      //printf("%d - %d - %d - %d\n", ini, fim, p, qtd);
     };
     
     ini++;
