@@ -1,8 +1,15 @@
+/*
+TRABALHO 2 - Ponteiros
+Aluno: Kayran Vieira Chaves
+Disciplina: INF029 - Laboratório de Programação.
+Semestre: 2
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-//####################################################################
 
+//####################################################################
 struct Pos
 {
 	int num;
@@ -11,7 +18,6 @@ struct Pos
 typedef struct Pos pos;
 
 //####################################################################
-
 void listar(pos* ptr, int num){
 	pos *referencia;
 	for(referencia= ptr;referencia!= NULL; referencia=referencia->prox){
@@ -20,7 +26,6 @@ void listar(pos* ptr, int num){
 }
 
 //####################################################################
-
 void inserir(pos **p, int Num){
   pos *aux, *novo = malloc(sizeof(pos));  
 
@@ -47,7 +52,6 @@ void inserir(pos **p, int Num){
         printf("Erro ao alocar memoria!\n");
 }
 //####################################################################
-
 pos *remover(int Num , pos *ptr){
 	pos* busca; 
 	pos* anterior;
@@ -83,14 +87,14 @@ int menu(){
 }
 
 //####################################################################
-int main(){
+int main()
+{
   pos *geral = NULL;
   pos *estrutura[10] = {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}; //Vetor de ponteiros
   int lim_est[10] = {2,4,0,8,3,0,5,0,0,0}; //Limite de cada coluna
   int tam_est[10] = {1,2,0,3,1,0,3,0,0,0}; //Espaços ocupados
   int start;
-  //####################################################################
-  inserir(&estrutura[0], 4);
+  //##################################
   inserir(&geral, 4);
   inserir(&estrutura[1], 5);
   inserir(&geral, 5);
@@ -110,7 +114,8 @@ int main(){
   inserir(&geral, 18);
   inserir(&estrutura[6], -16);
   inserir(&geral, -16);
-  //####################################################################
+  
+  //##################################
   while(start != 7){
     start = menu();
     int aux, tam, elt;
@@ -137,6 +142,7 @@ int main(){
         else{
           inserir(&estrutura[psc], val);
           inserir(&geral, val);
+          tam_est[psc]++;
           printf("\n!!! Valor inserido com sucesso. !!!\n");
         }
         break;
@@ -173,6 +179,7 @@ int main(){
         printf("Informe o elemento: ");
         scanf("%d",&elt);
         estrutura[aux] = remover(elt, estrutura[aux]);
+        tam_est[aux]--;
         break;
       }
       case 6:{
@@ -186,3 +193,5 @@ int main(){
       }
     }
   }
+
+//####################################################################
