@@ -500,19 +500,6 @@ void finalizar()
 //#######################################################################
 //#######################################################################
 
-void ordenar(int vetor[], int tamanho) 
-{
-  for (int i = 0; i < tamanho - 1; ++i) {
-    for (int j = i + 1; j < tamanho; ++j) {
-      if (vetor[i] > vetor[j]) {
-        int temp = vetor[i];
-        vetor[i] = vetor[j];
-        vetor[j] = temp;
-      }
-    }
-  }
-}
-
 No *removerFinal(No *pont){
 	No* busca; 
 	No* anterior;

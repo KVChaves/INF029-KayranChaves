@@ -42,7 +42,6 @@ void destruirListaEncadeadaComCabecote(No **inicio);
 void inicializar();
 void finalizar();
 
-void ordenar(int vetor[], int tamanho);
 No *removerFinal(No *pont);
 No *removerNum(int Num , No *ptr);
 int buscar(int Num , No *ptr);
